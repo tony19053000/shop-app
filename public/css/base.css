@@ -108,9 +108,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   font-weight: 500;
   cursor: pointer;
   border: 1px solid transparent;
-  transition: all var(--transition-fast);
+  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.22s ease;
   white-space: nowrap;
   text-decoration: none;
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px) scale(0.985);
 }
 
 .btn:disabled {
@@ -126,6 +130,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .btn-primary:hover:not(:disabled) {
   background-color: var(--terracotta-hover);
   color: #FFFFFF;
+  box-shadow: 0 6px 18px -4px rgba(200, 85, 61, 0.38);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
@@ -138,6 +144,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   border-color: var(--text-main);
   background-color: var(--bg-subtle);
   color: var(--text-main);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-ghost {

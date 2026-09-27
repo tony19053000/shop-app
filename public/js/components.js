@@ -123,7 +123,10 @@ export function initGlobalLayout() {
   if (announcementMount) {
     announcementMount.innerHTML = `
       <div class="announcement-bar">
-        Free shipping on orders over $75 &middot; 30-day returns
+        <span style="display:inline-flex;align-items:center;gap:6px;">
+          <span class="pulse-dot" style="background-color:#FFFFFF;width:6px;height:6px;"></span>
+          Free shipping on orders over $75 &middot; 30-day returns
+        </span>
       </div>
     `;
   }

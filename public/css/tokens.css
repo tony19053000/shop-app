@@ -58,6 +58,9 @@
 
   /* Transitions */
   --transition-fast: 150ms ease-out;
+  --transition-smooth: 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  --color-espresso: #24201D;
+  --color-espresso-surface: #2E2925;
   --focus-ring: 2px solid #8A9A5B;
   --focus-offset: 3px;
 }
