@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { requireAuth } from './middleware/auth.js';
 import authRouter from './routes/auth.js';
+import adminRouter from './routes/admin.js';
 import categoriesRouter from './routes/categories.js';
 import ordersRouter from './routes/orders.js';
 import productsRouter from './routes/products.js';
@@ -28,10 +29,11 @@ app.get('/api/me', requireAuth, (req, res) => {
   return res.status(200).json(req.user);
 });
 
-// Catalog endpoints
+// Catalog and operational endpoints
 app.use('/api/categories', categoriesRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/orders', ordersRouter);
+app.use('/api/admin', adminRouter);
 
 // Serve static frontend assets
 app.use(express.static(publicDir));
