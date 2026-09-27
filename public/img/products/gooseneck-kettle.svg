@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF6F0" />
+      <stop offset="100%" stop-color="#EBE3D7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1F1D1A" flood-opacity="0.08" />
+    </filter>
+  </defs>
+  <rect width="400" height="400" rx="16" fill="url(#bg)" />
+  <circle cx="200" cy="200" r="140" fill="#EFE8DE" opacity="0.65" />
+  
+      <g filter="url(#shadow)" transform="translate(200, 205)">
+        <!-- Body -->
+        <path d="M -50 45 C -55 10, -35 -20, 0 -25 C 35 -20, 55 10, 50 45 Z" fill="#2E3033" />
+        <ellipse cx="0" cy="45" rx="50" ry="14" fill="#212529" />
+        <ellipse cx="0" cy="-25" rx="28" ry="8" fill="#3D4044" />
+        <!-- Lid & Wooden knob -->
+        <ellipse cx="0" cy="-30" rx="24" ry="6" fill="#2E3033" />
+        <ellipse cx="0" cy="-36" rx="7" ry="4" fill="#C89D6C" />
+        <!-- Gooseneck spout -->
+        <path d="M -45 30 C -90 10, -90 -25, -60 -45" fill="none" stroke="#2E3033" stroke-width="6" stroke-linecap="round" />
+        <!-- Handle -->
+        <path d="M 35 -15 C 85 -20, 85 40, 45 42" fill="none" stroke="#C89D6C" stroke-width="8" stroke-linecap="round" />
+      </g>
+</svg>

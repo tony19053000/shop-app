@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF6F0" />
+      <stop offset="100%" stop-color="#EBE3D7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1F1D1A" flood-opacity="0.08" />
+    </filter>
+  </defs>
+  <rect width="400" height="400" rx="16" fill="url(#bg)" />
+  <circle cx="200" cy="200" r="140" fill="#EFE8DE" opacity="0.65" />
+  
+      <g filter="url(#shadow)" transform="translate(200, 205)">
+        <path d="M -25 -30 L -50 45 C -50 65, 50 65, 50 45 L 25 -30 Z" fill="#E8F4F8" opacity="0.8" stroke="#B0BEC5" stroke-width="3" />
+        <ellipse cx="0" cy="-30" rx="25" ry="8" fill="#F5FBFC" stroke="#B0BEC5" stroke-width="2" />
+        <!-- Liquid -->
+        <path d="M -44 25 C -44 55, 44 55, 44 25 Z" fill="#6A462F" opacity="0.85" />
+        <!-- Glass Handle -->
+        <path d="M 35 -10 C 65 -10, 65 35, 40 35" fill="none" stroke="#B0BEC5" stroke-width="5" stroke-linecap="round" />
+      </g>
+</svg>

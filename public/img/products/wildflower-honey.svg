@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF6F0" />
+      <stop offset="100%" stop-color="#EBE3D7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1F1D1A" flood-opacity="0.08" />
+    </filter>
+  </defs>
+  <rect width="400" height="400" rx="16" fill="url(#bg)" />
+  <circle cx="200" cy="200" r="140" fill="#EFE8DE" opacity="0.65" />
+  
+      <g filter="url(#shadow)" transform="translate(200, 205)">
+        <rect x="-40" y="-15" width="80" height="80" rx="14" fill="#E89828" opacity="0.9" />
+        <ellipse cx="0" cy="-15" rx="40" ry="12" fill="#FAF6EE" stroke="#E3DACB" stroke-width="2" />
+        <rect x="-44" y="-30" width="88" height="18" rx="5" fill="#D4A373" />
+        <rect x="-26" y="5" width="52" height="42" rx="4" fill="#FAF6EE" />
+        <line x1="-16" y1="20" x2="16" y2="20" stroke="#B8731F" stroke-width="2.5" stroke-linecap="round" />
+        <line x1="-12" y1="30" x2="12" y2="30" stroke="#6E675E" stroke-width="1.5" stroke-linecap="round" />
+      </g>
+</svg>

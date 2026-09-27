@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF6F0" />
+      <stop offset="100%" stop-color="#EBE3D7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1F1D1A" flood-opacity="0.08" />
+    </filter>
+  </defs>
+  <rect width="400" height="400" rx="16" fill="url(#bg)" />
+  <circle cx="200" cy="200" r="140" fill="#EFE8DE" opacity="0.65" />
+  
+    <g filter="url(#shadow)" transform="translate(200, 200)">
+      <!-- Main Plate -->
+      <ellipse cx="0" cy="30" rx="110" ry="55" fill="#E8E2D8" />
+      <ellipse cx="0" cy="28" rx="95" ry="46" fill="#F5F1EB" stroke="#D8CEBF" stroke-width="2" />
+      <ellipse cx="0" cy="26" rx="65" ry="30" fill="#EFE9E0" />
+      <!-- Bowl on Top -->
+      <ellipse cx="-20" cy="-10" rx="55" ry="28" fill="#8A9A5B" />
+      <path d="M -75 -10 C -75 25, 35 25, 35 -10 Z" fill="#78874E" />
+      <ellipse cx="-20" cy="-12" rx="48" ry="22" fill="#9FB06F" />
+      <!-- Fork -->
+      <g transform="translate(75, -15) rotate(25)">
+        <path d="M 0 -40 L 0 50" stroke="#B3A286" stroke-width="5" stroke-linecap="round" />
+        <path d="M -12 -40 C -12 -20, 12 -20, 12 -40" fill="none" stroke="#B3A286" stroke-width="3.5" />
+        <path d="M -5 -40 L -5 -25 M 5 -40 L 5 -25" stroke="#B3A286" stroke-width="3" />
+      </g>
+    </g>
+  
+</svg>

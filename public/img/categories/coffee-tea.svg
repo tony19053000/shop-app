@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF6F0" />
+      <stop offset="100%" stop-color="#EBE3D7" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1F1D1A" flood-opacity="0.08" />
+    </filter>
+  </defs>
+  <rect width="400" height="400" rx="16" fill="url(#bg)" />
+  <circle cx="200" cy="200" r="140" fill="#EFE8DE" opacity="0.65" />
+  
+    <g filter="url(#shadow)" transform="translate(200, 200)">
+      <!-- Glass Carafe -->
+      <path d="M -30 20 L -55 75 C -55 90, 55 90, 55 75 L 30 20 Z" fill="#E2EDF0" opacity="0.8" stroke="#ADC8D2" stroke-width="3" />
+      <!-- Coffee inside -->
+      <path d="M -48 60 C -48 82, 48 82, 48 60 Z" fill="#6A462F" opacity="0.9" />
+      <!-- Carafe Handle -->
+      <path d="M 40 30 C 70 30, 70 70, 42 70" fill="none" stroke="#ADC8D2" stroke-width="5" stroke-linecap="round" />
+      <!-- Ceramic Pour-Over Dripper -->
+      <polygon points="-50,-40 50,-40 25,15 -25,15" fill="#C8553D" />
+      <ellipse cx="0" cy="-40" rx="50" ry="14" fill="#D9664E" />
+      <ellipse cx="0" cy="-42" rx="42" ry="10" fill="#B24732" />
+      <!-- Dripper Handle -->
+      <path d="M 45 -35 C 65 -35, 65 -15, 30 -5" fill="none" stroke="#C8553D" stroke-width="6" stroke-linecap="round" />
+      <!-- Coffee Drop -->
+      <circle cx="0" cy="35" r="4" fill="#6A462F" />
+      <!-- Steam -->
+      <path d="M -10 -60 Q -20 -80 -10 -95" fill="none" stroke="#9A7B68" stroke-width="2.5" stroke-dasharray="3,3" opacity="0.6" />
+      <path d="M 12 -62 Q 22 -82 12 -97" fill="none" stroke="#9A7B68" stroke-width="2.5" stroke-dasharray="3,3" opacity="0.6" />
+    </g>
+  
+</svg>
