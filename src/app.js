@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { requireAuth } from './middleware/auth.js';
 import authRouter from './routes/auth.js';
 import categoriesRouter from './routes/categories.js';
+import productsRouter from './routes/products.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,8 +27,9 @@ app.get('/api/me', requireAuth, (req, res) => {
   return res.status(200).json(req.user);
 });
 
-// Categories endpoint
+// Catalog endpoints
 app.use('/api/categories', categoriesRouter);
+app.use('/api/products', productsRouter);
 
 // Serve static frontend assets
 app.use(express.static(publicDir));
