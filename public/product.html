@@ -218,7 +218,7 @@
 
         if (currentProduct.stock <= 0) {
           stockDot.style.backgroundColor = 'var(--status-danger)';
-          stockText.textContent = 'Sold out &middot; Join the waiting list';
+          stockText.textContent = 'Sold out · Join the waiting list';
           addBtn.disabled = true;
           addBtn.textContent = 'Sold Out';
         } else if (currentProduct.stock <= 5) {
@@ -228,7 +228,7 @@
           updateAddButtonText();
         } else {
           stockDot.style.backgroundColor = 'var(--status-success)';
-          stockText.textContent = 'In stock &middot; Dispatches next business day';
+          stockText.textContent = 'In stock · Dispatches next business day';
           addBtn.disabled = false;
           updateAddButtonText();
         }
