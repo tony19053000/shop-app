@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout &middot; Kettle &amp; Crate</title>
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main class="container" style="padding-top:var(--space-8);padding-bottom:var(--space-16);">
+    <h1 style="margin-bottom:var(--space-8);">Secure Checkout</h1>
+
+    <!-- Guest / Sign-in Notice Banner -->
+    <div id="checkout-auth-banner" style="display:none;background:var(--terracotta-tint);border:1px solid var(--terracotta);border-radius:var(--radius-md);padding:var(--space-5);margin-bottom:var(--space-6);">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-4);">
+        <div>
+          <strong style="color:var(--terracotta);display:block;margin-bottom:var(--space-1);">Account Required for Checkout</strong>
+          <span style="font-size:0.92rem;color:var(--text-main);">Sign in with your customer account or create one in thirty seconds to finalize your order.</span>
+        </div>
+        <div style="display:flex;gap:var(--space-3);">
+          <a href="/signin?redirect=/checkout" class="btn btn-primary btn-sm">Sign In</a>
+          <a href="/signup?redirect=/checkout" class="btn btn-secondary btn-sm">Create Account</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-layout" id="checkout-main-grid">
+      <!-- Steps Container -->
+      <div>
+        <form id="checkout-form">
+          <!-- Step 1: Shipping Address -->
+          <div class="checkout-step-card">
+            <div class="step-header">
+              <span class="step-num">1</span>
+              <h2 style="font-size:1.35rem;">Shipping Destination</h2>
+            </div>
+
+            <div class="form-group">
+              <label for="ship-name" class="form-label">Recipient Full Name</label>
+              <input type="text" id="ship-name" class="form-input" autocomplete="name" required />
+            </div>
+
+            <div class="form-group">
+              <label for="ship-line1" class="form-label">Street Address</label>
+              <input type="text" id="ship-line1" class="form-input" placeholder="House number and street name" autocomplete="address-line1" required />
+            </div>
+
+            <div class="form-group">
+              <label for="ship-line2" class="form-label">Apartment, suite, or unit (optional)</label>
+              <input type="text" id="ship-line2" class="form-input" autocomplete="address-line2" />
+            </div>
+
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:var(--space-4);">
+              <div class="form-group">
+                <label for="ship-city" class="form-label">City</label>
+                <input type="text" id="ship-city" class="form-input" autocomplete="address-level2" required />
+              </div>
+              <div class="form-group">
+                <label for="ship-region" class="form-label">State / Region</label>
+                <input type="text" id="ship-region" class="form-input" placeholder="OR" autocomplete="address-level1" required />
+              </div>
+              <div class="form-group">
+                <label for="ship-postcode" class="form-label">Postal Code</label>
+                <input type="text" id="ship-postcode" class="form-input" autocomplete="postal-code" required />
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+              <label for="ship-country" class="form-label">Country</label>
+              <select id="ship-country" class="form-select" autocomplete="country" required>
+                <option value="United States" selected>United States</option>
+                <option value="Canada">Canada</option>
+                <option value="United Kingdom">United Kingdom</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Step 2: Payment Details (Simulated Gateway) -->
+          <div class="checkout-step-card">
+            <div class="step-header">
+              <span class="step-num">2</span>
+              <h2 style="font-size:1.35rem;">Payment Method</h2>
+            </div>
+            <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:var(--space-4);">
+              Card data is validated locally in your browser and processed via encrypted tokenization.
+            </p>
+
+            <div class="form-group">
+              <label for="card-num" class="form-label">Card Number</label>
+              <input
+                type="text"
+                id="card-num"
+                class="form-input"
+                placeholder="4000 0000 0000 0000"
+                maxlength="19"
+                autocomplete="cc-number"
+                inputmode="numeric"
+                required
+              />
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+              <div class="form-group">
+                <label for="card-exp" class="form-label">Expiration Date (MM/YY)</label>
+                <input
+                  type="text"
+                  id="card-exp"
+                  class="form-input"
+                  placeholder="MM / YY"
+                  maxlength="7"
+                  autocomplete="cc-exp"
+                  inputmode="numeric"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="card-cvc" class="form-label">Security Code (CVC)</label>
+                <input
+                  type="password"
+                  id="card-cvc"
+                  class="form-input"
+                  placeholder="123"
+                  maxlength="4"
+                  autocomplete="cc-csc"
+                  inputmode="numeric"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Order -->
+          <button type="submit" class="btn btn-primary btn-lg" id="submit-order-btn" style="width:100%;height:52px;font-size:1.1rem;">
+            Place Order &middot; <span id="btn-total-amount">$0.00</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Order Review Sidebar -->
+      <aside>
+        <div class="order-summary-box">
+          <h3 style="font-size:1.2rem;">Review Items (<span id="review-items-count">0</span>)</h3>
+
+          <div id="checkout-items-list" style="display:flex;flex-direction:column;gap:var(--space-3);max-height:300px;overflow-y:auto;padding-right:var(--space-2);"></div>
+
+          <div style="border-top:1px solid var(--border-color);padding-top:var(--space-4);">
+            <div class="summary-row">
+              <span style="color:var(--text-muted);">Subtotal</span>
+              <span class="price" id="checkout-subtotal">$0.00</span>
+            </div>
+
+            <div class="summary-row" id="checkout-discount-row" style="display:none;color:var(--status-success);">
+              <span>Promotional Discount</span>
+              <span class="price" id="checkout-discount">-$0.00</span>
+            </div>
+
+            <div class="summary-row">
+              <span style="color:var(--text-muted);">Standard Shipping</span>
+              <span class="price" id="checkout-shipping">$0.00</span>
+            </div>
+
+            <div class="summary-row total">
+              <span>Total Due</span>
+              <span class="price" id="checkout-total" style="color:var(--terracotta);">$0.00</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import { apiRequest } from '/js/api.js';
+    import { checkSession, getUser } from '/js/auth.js';
+    import { clearCart, getCartState } from '/js/cart.js';
+    import { formatPrice, initGlobalLayout, showToast } from '/js/components.js';
+
+    initGlobalLayout();
+
+    const state = getCartState();
+    if (state.items.length === 0) {
+      window.location.href = '/cart';
+    }
+
+    async function initCheckout() {
+      const user = await checkSession();
+      const authBanner = document.getElementById('checkout-auth-banner');
+      const submitBtn = document.getElementById('submit-order-btn');
+
+      if (!user) {
+        authBanner.style.display = 'block';
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sign In to Complete Order';
+      } else {
+        authBanner.style.display = 'none';
+        submitBtn.disabled = false;
+
+        // Pre-fill user profile address if available
+        if (user.address) {
+          document.getElementById('ship-name').value = user.address.name || user.name;
+          document.getElementById('ship-line1').value = user.address.line1 || '';
+          document.getElementById('ship-line2').value = user.address.line2 || '';
+          document.getElementById('ship-city').value = user.address.city || '';
+          document.getElementById('ship-region').value = user.address.region || '';
+          document.getElementById('ship-postcode').value = user.address.postcode || '';
+          if (user.address.country) {
+            document.getElementById('ship-country').value = user.address.country;
+          }
+        } else {
+          document.getElementById('ship-name').value = user.name;
+        }
+      }
+
+      renderReview();
+      setupCardFormatting();
+    }
+
+    function renderReview() {
+      document.getElementById('review-items-count').textContent = state.itemCount;
+      const itemsList = document.getElementById('checkout-items-list');
+
+      itemsList.innerHTML = state.items.map((it) => `
+        <div style="display:flex;align-items:center;gap:var(--space-3);font-size:0.88rem;">
+          <img src="${it.image}" alt="${it.name}" style="width:44px;height:44px;border-radius:var(--radius-sm);background:var(--bg-canvas);object-fit:contain;padding:4px;" />
+          <div style="flex:1;">
+            <div style="font-weight:500;">${it.name}</div>
+            <div style="color:var(--text-muted);font-size:0.8rem;">Qty: ${it.qty}</div>
+          </div>
+          <span class="price">${formatPrice(it.price * it.qty)}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('checkout-subtotal').textContent = formatPrice(state.subtotal);
+      if (state.discountAmount > 0) {
+        document.getElementById('checkout-discount-row').style.display = 'flex';
+        document.getElementById('checkout-discount').textContent = `-${formatPrice(state.discountAmount)}`;
+      }
+
+      document.getElementById('checkout-shipping').textContent = state.shippingCost === 0 ? 'FREE' : formatPrice(state.shippingCost);
+      document.getElementById('checkout-total').textContent = formatPrice(state.total);
+      document.getElementById('btn-total-amount').textContent = formatPrice(state.total);
+    }
+
+    function setupCardFormatting() {
+      const cardNum = document.getElementById('card-num');
+      const cardExp = document.getElementById('card-exp');
+      const cardCvc = document.getElementById('card-cvc');
+
+      cardNum.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\D/g, '').substring(0, 16);
+        let formatted = val.match(/.{1,4}/g)?.join(' ') || '';
+        e.target.value = formatted;
+      });
+
+      cardExp.addEventListener('input', (e) => {
+        let val = e.target.value.replace(/\D/g, '').substring(0, 4);
+        if (val.length >= 3) {
+          e.target.value = `${val.substring(0, 2)} / ${val.substring(2)}`;
+        } else {
+          e.target.value = val;
+        }
+      });
+
+      cardCvc.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+      });
+    }
+
+    // Checkout submission
+    const form = document.getElementById('checkout-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const user = getUser();
+      if (!user) {
+        showToast('Please sign in to place your order', 'warning');
+        window.location.href = '/signin?redirect=/checkout';
+        return;
+      }
+
+      const cardNum = document.getElementById('card-num').value.replace(/\s/g, '');
+      const cardExp = document.getElementById('card-exp').value.replace(/\s/g, '');
+      const cardCvc = document.getElementById('card-cvc').value.trim();
+
+      if (cardNum.length < 13 || cardExp.length < 5 || cardCvc.length < 3) {
+        showToast('Please verify your payment card details', 'warning');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submit-order-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Processing Payment...';
+
+      const payload = {
+        items: state.items.map((it) => ({
+          productId: it.productId,
+          qty: it.qty
+        })),
+        shippingAddress: {
+          name: document.getElementById('ship-name').value.trim(),
+          line1: document.getElementById('ship-line1').value.trim(),
+          line2: document.getElementById('ship-line2').value.trim(),
+          city: document.getElementById('ship-city').value.trim(),
+          region: document.getElementById('ship-region').value.trim(),
+          postcode: document.getElementById('ship-postcode').value.trim(),
+          country: document.getElementById('ship-country').value
+        },
+        discountCode: state.discountCode || undefined,
+        paymentMethod: 'card'
+      };
+
+      try {
+        const order = await apiRequest('/api/orders', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        clearCart();
+        window.location.href = `/order/${order.id}`;
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = `Place Order · ${formatPrice(state.total)}`;
+        showToast(err.message || 'Unable to place order', 'danger');
+      }
+    });
+
+    initCheckout();
+  </script>
+</body>
+</html>

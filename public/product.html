@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Details &middot; Kettle &amp; Crate</title>
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main class="container" id="product-main-container">
+    <div style="padding-top:var(--space-6);padding-bottom:var(--space-2);">
+      <nav aria-label="Breadcrumb">
+        <ol style="display:flex;gap:var(--space-2);list-style:none;font-size:0.85rem;color:var(--text-muted);">
+          <li><a href="/">Home</a></li>
+          <li>&sol;</li>
+          <li><a href="/shop">Shop</a></li>
+          <li>&sol;</li>
+          <li id="breadcrumb-category"><a href="/shop">Provisions</a></li>
+          <li>&sol;</li>
+          <li id="breadcrumb-name" style="color:var(--text-main);font-weight:500;">Details</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="product-detail-layout" id="product-detail-mount">
+      <!-- Media column -->
+      <div class="product-hero-image-wrap">
+        <img id="product-img" src="" alt="" />
+      </div>
+
+      <!-- Info column -->
+      <div class="product-detail-info">
+        <span class="product-sku" id="product-sku"></span>
+        <h1 id="product-title" style="margin-bottom:var(--space-2);"></h1>
+
+        <div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-2);">
+          <div style="display:flex;align-items:center;gap:var(--space-1);color:#D4AF37;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            <span style="font-weight:600;color:var(--text-main);" id="product-rating-num"></span>
+          </div>
+          <span style="color:var(--text-muted);font-size:0.9rem;" id="product-rating-count"></span>
+        </div>
+
+        <div class="product-price-large">
+          <span class="price" id="product-price"></span>
+          <span class="price-compare" id="product-compare-at"></span>
+        </div>
+
+        <div id="product-stock-wrap" class="stock-indicator">
+          <span class="stock-indicator-dot"></span>
+          <span id="product-stock-text">In stock &middot; Ready to dispatch</span>
+        </div>
+
+        <p class="lead" id="product-description" style="margin-top:var(--space-2);"></p>
+
+        <!-- Quantity and Add to Cart -->
+        <div class="add-to-cart-bar">
+          <div class="qty-picker">
+            <button type="button" class="qty-btn" id="qty-dec" aria-label="Decrease quantity">&minus;</button>
+            <span class="qty-value" id="qty-val">1</span>
+            <button type="button" class="qty-btn" id="qty-inc" aria-label="Increase quantity">&plus;</button>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-lg" id="add-to-cart-btn" style="flex:1;">
+            Add to Bag &middot; <span id="add-to-cart-price"></span>
+          </button>
+        </div>
+
+        <!-- Specification Tabs -->
+        <div>
+          <div class="tabs-header">
+            <button type="button" class="tab-btn active" data-tab="tab-details">Details</button>
+            <button type="button" class="tab-btn" data-tab="tab-care">Care &amp; Maintenance</button>
+            <button type="button" class="tab-btn" data-tab="tab-shipping">Shipping &amp; Returns</button>
+          </div>
+
+          <div class="tab-content active" id="tab-details">
+            <table style="width:100%;border-collapse:collapse;font-size:0.92rem;">
+              <tr style="border-bottom:1px solid var(--border-color);">
+                <td style="padding-block:var(--space-2);color:var(--text-muted);width:130px;">Materials</td>
+                <td style="padding-block:var(--space-2);font-weight:500;" id="tab-mat"></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-color);">
+                <td style="padding-block:var(--space-2);color:var(--text-muted);">Dimensions</td>
+                <td style="padding-block:var(--space-2);font-weight:500;" id="tab-dim"></td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border-color);">
+                <td style="padding-block:var(--space-2);color:var(--text-muted);">Craft Origin</td>
+                <td style="padding-block:var(--space-2);font-weight:500;" id="tab-orig"></td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="tab-content" id="tab-care">
+            <p id="tab-care-text" style="font-size:0.92rem;color:var(--text-muted);line-height:1.6;"></p>
+          </div>
+
+          <div class="tab-content" id="tab-shipping">
+            <p style="font-size:0.92rem;color:var(--text-muted);line-height:1.6;">
+              Orders ship from our Portland studio within 24 business hours in plastic-free recyclable paper packaging. Standard ground delivery arrives in 3&ndash;5 business days. Free shipping on orders over $75. If you are not completely delighted with your purchase, return it within 30 days for a full refund.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:var(--space-4);margin-bottom:var(--space-6);">
+        <div>
+          <h2>Customer Reviews</h2>
+          <p class="lead" id="reviews-summary-line" style="margin-bottom:0;">Verified customer notes and feedback.</p>
+        </div>
+        <button type="button" class="btn btn-secondary" id="write-review-toggle-btn">
+          Write a Review
+        </button>
+      </div>
+
+      <!-- Write Review Form Container -->
+      <div id="write-review-container" style="display:none;background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius-lg);padding:var(--space-6);margin-bottom:var(--space-8);box-shadow:var(--shadow-sm);">
+        <h3 style="margin-bottom:var(--space-4);">Share Your Experience</h3>
+        <form id="review-form">
+          <div class="form-group">
+            <label class="form-label" for="review-rating">Rating</label>
+            <select id="review-rating" class="form-select" style="max-width:200px;" required>
+              <option value="5">5 Stars - Outstanding</option>
+              <option value="4">4 Stars - Very Good</option>
+              <option value="3">3 Stars - Average</option>
+              <option value="2">2 Stars - Below Expectations</option>
+              <option value="1">1 Star - Unsatisfactory</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="review-title">Review Headline</label>
+            <input type="text" id="review-title" class="form-input" placeholder="Sum up your thoughts" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="review-body">Review Details</label>
+            <textarea id="review-body" class="form-textarea" placeholder="How has this item performed in your kitchen?" required></textarea>
+          </div>
+          <div style="display:flex;gap:var(--space-3);">
+            <button type="submit" class="btn btn-primary" id="submit-review-btn">Post Review</button>
+            <button type="button" class="btn btn-ghost" id="cancel-review-btn">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Reviews Feed -->
+      <div id="reviews-feed"></div>
+    </section>
+
+    <!-- You May Also Like -->
+    <section style="margin-top:var(--space-16);margin-bottom:var(--space-12);">
+      <h2 style="margin-bottom:var(--space-4);">You May Also Like</h2>
+      <div class="product-grid" id="related-products-grid"></div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import { apiRequest } from '/js/api.js';
+    import { getUser } from '/js/auth.js';
+    import { addItem } from '/js/cart.js';
+    import { formatPrice, initGlobalLayout, renderProductCard, showToast } from '/js/components.js';
+
+    initGlobalLayout();
+
+    // Extract product ID from URL path: /product/:id
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    const productId = pathParts[1];
+
+    let currentProduct = null;
+    let selectedQty = 1;
+
+    async function loadProduct() {
+      try {
+        currentProduct = await apiRequest(`/api/products/${productId}`);
+        document.title = `${currentProduct.name} · Kettle & Crate`;
+
+        // Breadcrumbs
+        const catLink = document.getElementById('breadcrumb-category');
+        catLink.innerHTML = `<a href="/shop/${currentProduct.category}">${currentProduct.category.replace('-', ' & ')}</a>`;
+        document.getElementById('breadcrumb-name').textContent = currentProduct.name;
+
+        // Visuals and Info
+        const img = document.getElementById('product-img');
+        img.src = currentProduct.image;
+        img.alt = currentProduct.name;
+
+        document.getElementById('product-sku').textContent = `SKU: ${currentProduct.sku}`;
+        document.getElementById('product-title').textContent = currentProduct.name;
+        document.getElementById('product-rating-num').textContent = currentProduct.rating.toFixed(1);
+        document.getElementById('product-rating-count').textContent = `(${currentProduct.reviewCount} customer reviews)`;
+
+        document.getElementById('product-price').textContent = formatPrice(currentProduct.price);
+        const compEl = document.getElementById('product-compare-at');
+        if (currentProduct.compareAt && currentProduct.compareAt > currentProduct.price) {
+          compEl.textContent = formatPrice(currentProduct.compareAt);
+          compEl.style.display = 'inline';
+        } else {
+          compEl.style.display = 'none';
+        }
+
+        document.getElementById('product-description').textContent = currentProduct.description;
+
+        // Stock status
+        const stockDot = document.querySelector('.stock-indicator-dot');
+        const stockText = document.getElementById('product-stock-text');
+        const addBtn = document.getElementById('add-to-cart-btn');
+
+        if (currentProduct.stock <= 0) {
+          stockDot.style.backgroundColor = 'var(--status-danger)';
+          stockText.textContent = 'Sold out &middot; Join the waiting list';
+          addBtn.disabled = true;
+          addBtn.textContent = 'Sold Out';
+        } else if (currentProduct.stock <= 5) {
+          stockDot.style.backgroundColor = 'var(--status-warning)';
+          stockText.textContent = `Only ${currentProduct.stock} left in studio inventory`;
+          addBtn.disabled = false;
+          updateAddButtonText();
+        } else {
+          stockDot.style.backgroundColor = 'var(--status-success)';
+          stockText.textContent = 'In stock &middot; Dispatches next business day';
+          addBtn.disabled = false;
+          updateAddButtonText();
+        }
+
+        // Details tabs
+        document.getElementById('tab-mat').textContent = currentProduct.details.material;
+        document.getElementById('tab-dim').textContent = currentProduct.details.dimensions;
+        document.getElementById('tab-orig').textContent = currentProduct.details.origin;
+        document.getElementById('tab-care-text').textContent = currentProduct.details.care;
+
+        renderReviews(currentProduct.reviews);
+        loadRelated(currentProduct.category, currentProduct.id);
+      } catch (err) {
+        document.getElementById('product-main-container').innerHTML = `
+          <div style="padding:var(--space-16);text-align:center;">
+            <h2>Provision Not Found</h2>
+            <p style="color:var(--text-muted);margin-bottom:var(--space-6);">The requested item may have been discontinued or moved.</p>
+            <a href="/shop" class="btn btn-primary">Return to Catalog</a>
+          </div>
+        `;
+      }
+    }
+
+    function updateAddButtonText() {
+      const addBtnPrice = document.getElementById('add-to-cart-price');
+      if (addBtnPrice && currentProduct) {
+        addBtnPrice.textContent = formatPrice(currentProduct.price * selectedQty);
+      }
+    }
+
+    // Quantity controls
+    document.getElementById('qty-dec').addEventListener('click', () => {
+      if (selectedQty > 1) {
+        selectedQty--;
+        document.getElementById('qty-val').textContent = selectedQty;
+        updateAddButtonText();
+      }
+    });
+
+    document.getElementById('qty-inc').addEventListener('click', () => {
+      const max = Math.min(10, currentProduct ? currentProduct.stock : 10);
+      if (selectedQty < max) {
+        selectedQty++;
+        document.getElementById('qty-val').textContent = selectedQty;
+        updateAddButtonText();
+      } else {
+        showToast(`Maximum available stock reached (${max})`, 'warning');
+      }
+    });
+
+    // Add to cart
+    document.getElementById('add-to-cart-btn').addEventListener('click', () => {
+      if (!currentProduct || currentProduct.stock <= 0) return;
+      addItem(currentProduct, selectedQty);
+      showToast(`Added ${selectedQty} ${currentProduct.name} to your shopping bag`, 'success');
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach((b) => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach((c) => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        const tabTarget = document.getElementById(btn.dataset.tab);
+        if (tabTarget) tabTarget.classList.add('active');
+      });
+    });
+
+    // Reviews rendering
+    function renderReviews(reviews) {
+      const feed = document.getElementById('reviews-feed');
+      if (!reviews || reviews.length === 0) {
+        feed.innerHTML = '<p style="color:var(--text-muted);">No reviews posted yet. Be the first to share your notes.</p>';
+        return;
+      }
+
+      feed.innerHTML = reviews.map((r) => `
+        <article class="review-card">
+          <div class="review-header">
+            <div>
+              <strong style="font-size:0.95rem;">${r.author}</strong>
+              <span style="color:var(--text-light);font-size:0.8rem;margin-left:var(--space-2);">&middot; Verified Customer</span>
+            </div>
+            <div style="display:flex;color:#D4AF37;">
+              ${Array.from({ length: r.rating }).map(() => `
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+              `).join('')}
+            </div>
+          </div>
+          <h4 style="font-size:1.02rem;margin-bottom:var(--space-2);">${r.title}</h4>
+          <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.6;margin-bottom:0;">${r.body}</p>
+        </article>
+      `).join('');
+    }
+
+    // Write review toggle & submit
+    const writeReviewContainer = document.getElementById('write-review-container');
+    const writeReviewBtn = document.getElementById('write-review-toggle-btn');
+    const cancelReviewBtn = document.getElementById('cancel-review-btn');
+    const reviewForm = document.getElementById('review-form');
+
+    writeReviewBtn.addEventListener('click', () => {
+      const user = getUser();
+      if (!user) {
+        showToast('Please sign in to write a review', 'info');
+        setTimeout(() => {
+          window.location.href = `/signin?redirect=/product/${productId}`;
+        }, 1200);
+        return;
+      }
+      writeReviewContainer.style.display = writeReviewContainer.style.display === 'none' ? 'block' : 'none';
+    });
+
+    cancelReviewBtn.addEventListener('click', () => {
+      writeReviewContainer.style.display = 'none';
+      reviewForm.reset();
+    });
+
+    reviewForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const rating = document.getElementById('review-rating').value;
+      const title = document.getElementById('review-title').value.trim();
+      const body = document.getElementById('review-body').value.trim();
+
+      try {
+        const review = await apiRequest(`/api/products/${productId}/reviews`, {
+          method: 'POST',
+          body: JSON.stringify({ rating: Number(rating), title, body })
+        });
+        showToast('Thank you! Your review has been published.', 'success');
+        writeReviewContainer.style.display = 'none';
+        reviewForm.reset();
+        await loadProduct();
+      } catch (err) {
+        showToast(err.message || 'Unable to publish review', 'danger');
+      }
+    });
+
+    // Related products
+    async function loadRelated(category, currentId) {
+      try {
+        const res = await fetch(`/api/products?category=${category}`);
+        const products = await res.json();
+        const related = products.filter((p) => p.id !== Number(currentId)).slice(0, 4);
+        const relatedGrid = document.getElementById('related-products-grid');
+        relatedGrid.innerHTML = related.map((p) => renderProductCard(p)).join('');
+      } catch {
+        // Non-critical
+      }
+    }
+
+    loadProduct();
+  </script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kettle &amp; Crate &middot; Heirloom Goods for Kitchen &amp; Gathering</title>
+  <meta name="description" content="Discover heavy-gauge cast iron, hand-thrown stoneware, precision coffee gear, and small-batch provisions crafted by independent artisans." />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+  <style>
+    /* Home Hero */
+    .hero-section {
+      background: linear-gradient(135deg, #FAF7F2 0%, #F4ECE1 100%);
+      border-bottom: 1px solid var(--border-color);
+      padding-block: var(--space-16);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: var(--space-12);
+    }
+    @media (max-width: 860px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+      }
+      .hero-section {
+        padding-block: var(--space-10);
+      }
+    }
+    .hero-eyebrow {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: var(--space-3);
+      display: block;
+    }
+    .hero-title {
+      font-size: 3.25rem;
+      font-weight: 600;
+      line-height: 1.15;
+      margin-bottom: var(--space-4);
+      letter-spacing: -0.02em;
+    }
+    @media (max-width: 640px) {
+      .hero-title { font-size: 2.25rem; }
+    }
+    .hero-lead {
+      font-size: 1.18rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: var(--space-6);
+    }
+    .hero-actions {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+    .hero-media {
+      position: relative;
+      border-radius: var(--radius-lg);
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      padding: var(--space-8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-media img {
+      width: 100%;
+      max-height: 380px;
+      object-fit: contain;
+    }
+
+    /* Category Tiles */
+    .category-tiles-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+      margin-block: var(--space-8);
+    }
+    @media (max-width: 900px) {
+      .category-tiles-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 480px) {
+      .category-tiles-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .category-tile {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-fast);
+    }
+    .category-tile:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      color: var(--text-main);
+    }
+    .category-tile-media {
+      aspect-ratio: 4 / 3;
+      background-color: var(--bg-canvas);
+      padding: var(--space-4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .category-tile-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform var(--transition-fast);
+    }
+    .category-tile:hover .category-tile-media img {
+      transform: scale(1.04);
+    }
+    .category-tile-body {
+      padding: var(--space-5);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .category-tile-title {
+      font-size: 1.15rem;
+      margin-bottom: var(--space-2);
+    }
+    .category-tile-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: var(--space-4);
+      flex: 1;
+    }
+
+    /* Pillars Strip */
+    .pillars-strip {
+      background-color: var(--bg-surface);
+      border-block: 1px solid var(--border-color);
+      padding-block: var(--space-12);
+      margin-block: var(--space-16);
+    }
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-8);
+    }
+    @media (max-width: 860px) {
+      .pillars-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 480px) {
+      .pillars-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .pillar-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .pillar-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background-color: var(--terracotta-tint);
+      color: var(--terracotta);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-2);
+    }
+    .pillar-title {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .pillar-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* Journal Teasers */
+    .journal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-8);
+      margin-block: var(--space-8);
+    }
+    @media (max-width: 860px) {
+      .journal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .journal-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      text-decoration: none;
+      color: var(--text-main);
+    }
+    .journal-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      color: var(--text-main);
+    }
+    .journal-card-body {
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .journal-card-meta {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--terracotta);
+      margin-bottom: var(--space-2);
+      font-weight: 600;
+    }
+    .journal-card-title {
+      font-size: 1.25rem;
+      margin-bottom: var(--space-3);
+      line-height: 1.35;
+    }
+    .journal-card-excerpt {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: var(--space-4);
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main>
+    <!-- Seasonal Hero -->
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div>
+          <span class="hero-eyebrow">Autumn Hearth Collection &middot; 2026</span>
+          <h1 class="hero-title">Slow mornings, well made.</h1>
+          <p class="hero-lead">
+            Heirloom cast iron, wheel-thrown stoneware, and single-estate culinary provisions crafted for unhurried breakfasts and shared evening tables.
+          </p>
+          <div class="hero-actions">
+            <a href="/shop" class="btn btn-primary btn-lg">Browse Collection</a>
+            <a href="/about" class="btn btn-secondary btn-lg">Our Workshop Story</a>
+          </div>
+        </div>
+        <div class="hero-media">
+          <img src="/img/categories/cookware.svg" alt="Enameled Cast Iron Dutch Oven and Kitchen Tools" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Tiles -->
+    <section class="container" style="padding-top:var(--space-16);">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:var(--space-4);">
+        <div>
+          <h2 style="font-size:2rem;margin-bottom:var(--space-2);">Crafted by Category</h2>
+          <p class="lead" style="margin-bottom:0;">Four deliberate collections designed for everyday utility.</p>
+        </div>
+        <a href="/shop" class="btn btn-ghost" style="font-weight:600;">Explore All Categories &rarr;</a>
+      </div>
+
+      <div class="category-tiles-grid">
+        <a href="/shop/cookware" class="category-tile">
+          <div class="category-tile-media">
+            <img src="/img/categories/cookware.svg" alt="Cookware Collection" />
+          </div>
+          <div class="category-tile-body">
+            <h3 class="category-tile-title">Cookware</h3>
+            <p class="category-tile-desc">Heavy-gauge cast iron, multi-clad stainless steel, and enameled braisers built for lifetime durability.</p>
+            <span style="font-size:0.88rem;color:var(--terracotta);font-weight:600;">Shop Cookware &rarr;</span>
+          </div>
+        </a>
+
+        <a href="/shop/tableware" class="category-tile">
+          <div class="category-tile-media">
+            <img src="/img/categories/tableware.svg" alt="Tableware Collection" />
+          </div>
+          <div class="category-tile-body">
+            <h3 class="category-tile-title">Tableware</h3>
+            <p class="category-tile-desc">Hand-thrown stoneware plates, fluted pasta bowls, and Belgian flax linens made for unhurried dinners.</p>
+            <span style="font-size:0.88rem;color:var(--terracotta);font-weight:600;">Shop Tableware &rarr;</span>
+          </div>
+        </a>
+
+        <a href="/shop/coffee-tea" class="category-tile">
+          <div class="category-tile-media">
+            <img src="/img/categories/coffee-tea.svg" alt="Coffee and Tea Collection" />
+          </div>
+          <div class="category-tile-body">
+            <h3 class="category-tile-title">Coffee &amp; Tea</h3>
+            <p class="category-tile-desc">Spiral-fluted drippers, gooseneck kettles, double-wall carafes, and substantial handcrafted ceramic mugs.</p>
+            <span style="font-size:0.88rem;color:var(--terracotta);font-weight:600;">Shop Coffee &amp; Tea &rarr;</span>
+          </div>
+        </a>
+
+        <a href="/shop/pantry" class="category-tile">
+          <div class="category-tile-media">
+            <img src="/img/categories/pantry.svg" alt="Pantry Collection" />
+          </div>
+          <div class="category-tile-body">
+            <h3 class="category-tile-title">Pantry</h3>
+            <p class="category-tile-desc">Wood-smoked sea salt flakes, single-estate cold pressed oils, raw honeys, and stone-ground provisions.</p>
+            <span style="font-size:0.88rem;color:var(--terracotta);font-weight:600;">Shop Pantry &rarr;</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="container" style="padding-top:var(--space-16);">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:var(--space-4);">
+        <div>
+          <h2 style="font-size:2rem;margin-bottom:var(--space-2);">Featured Essentials</h2>
+          <p class="lead" style="margin-bottom:0;">Eight studio favorites crafted for daily kitchen joy.</p>
+        </div>
+        <a href="/shop" class="btn btn-secondary">View All Provisions</a>
+      </div>
+
+      <div class="product-grid" id="featured-products-grid">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- Why Kettle & Crate Strip -->
+    <section class="pillars-strip">
+      <div class="container pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3 class="pillar-title">Built to Last</h3>
+          <p class="pillar-desc">Constructed from virgin iron, high-fire ceramic, and pure flax designed to endure generations of use.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="m4.93 4.93 4.24 4.24"/>
+              <path d="m14.83 9.17 4.24-4.24"/>
+              <path d="m14.83 14.83 4.24 4.24"/>
+              <path d="m9.17 14.83-4.24 4.24"/>
+            </svg>
+          </div>
+          <h3 class="pillar-title">Small Independent Makers</h3>
+          <p class="pillar-desc">Direct partnerships with family-run foundries, potters, and olive groves across Oregon, France, and Japan.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+              <path d="M21 3v5h-5"/>
+              <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+              <path d="M8 16H3v5"/>
+            </svg>
+          </div>
+          <h3 class="pillar-title">30-Day Free Returns</h3>
+          <p class="pillar-desc">Live with each tool in your home kitchen. If it does not bring genuine joy, return it at zero cost.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
+            </svg>
+          </div>
+          <h3 class="pillar-title">Plastic-Free Packaging</h3>
+          <p class="pillar-desc">Every order ships in recyclable unbleached kraft corrugate with molded pulp inserts and paper tape.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- From The Journal -->
+    <section class="container" style="padding-bottom:var(--space-16);">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:var(--space-4);margin-bottom:var(--space-4);">
+        <div>
+          <h2 style="font-size:2rem;margin-bottom:var(--space-2);">From the Journal</h2>
+          <p class="lead" style="margin-bottom:0;">Reflections on kitchen craft, culinary methods, and caring for natural materials.</p>
+        </div>
+        <a href="/journal" class="btn btn-ghost" style="font-weight:600;">Read All Articles &rarr;</a>
+      </div>
+
+      <div class="journal-grid">
+        <article class="journal-card">
+          <div class="journal-card-body">
+            <span class="journal-card-meta">Cast Iron Technique</span>
+            <h3 class="journal-card-title">
+              <a href="/journal#seasoning-cast-iron">How to Season and Care for Virgin Cast Iron</a>
+            </h3>
+            <p class="journal-card-excerpt">
+              Debunking old myths around soap, polymerizing thin layers of high smoke point oil, and cultivating an obsidian non-stick patina that lasts decades.
+            </p>
+            <a href="/journal#seasoning-cast-iron" style="font-size:0.88rem;color:var(--terracotta);font-weight:600;">Read Article &rarr;</a>
+          </div>
+        </article>
+
+        <article class="journal-card">
+          <div class="journal-card-body">
+            <span class="journal-card-meta">Morning Ritual</span>
+            <h3 class="journal-card-title">
+              <a href="/journal#pourover-guide">A Beginner's Guide to Precision Pour-Over</a>
+            </h3>
+            <p class="journal-card-excerpt">
+              Dialing in grind distributions, water temperature kinetics, and the meditative beauty of slow circular pours on quiet mornings.
+            </p>
+            <a href="/journal#pourover-guide" style="font-size:0.88rem;color:var(--terracotta);font-weight:600;">Read Article &rarr;</a>
+          </div>
+        </article>
+
+        <article class="journal-card">
+          <div class="journal-card-body">
+            <span class="journal-card-meta">Ceramic Care</span>
+            <h3 class="journal-card-title">
+              <a href="/journal#caring-for-stoneware">Caring for Handcrafted Stoneware &amp; Natural Glazes</a>
+            </h3>
+            <p class="journal-card-excerpt">
+              Understanding thermal shock tolerances, avoiding cutlery marks on satin matte glazes, and maintaining the organic beauty of handmade tableware.
+            </p>
+            <a href="/journal#caring-for-stoneware" style="font-size:0.88rem;color:var(--terracotta);font-weight:600;">Read Article &rarr;</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import { initGlobalLayout, renderProductCard } from '/js/components.js';
+
+    initGlobalLayout();
+
+    async function loadFeaturedProducts() {
+      const grid = document.getElementById('featured-products-grid');
+      try {
+        const res = await fetch('/api/products');
+        const products = await res.json();
+        const featured = products.filter(p => p.featured).slice(0, 8);
+        grid.innerHTML = featured.map(p => renderProductCard(p)).join('');
+      } catch (err) {
+        grid.innerHTML = '<p style="color:var(--text-muted);">Failed to load featured goods.</p>';
+      }
+    }
+
+    loadFeaturedProducts();
+  </script>
+</body>
+</html>

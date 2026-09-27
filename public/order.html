@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmed &middot; Kettle &amp; Crate</title>
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+  <style>
+    .confirmation-banner {
+      background-color: var(--sage-tint);
+      border: 1px solid var(--sage);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      margin-bottom: var(--space-8);
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+    }
+    .confirmation-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background-color: var(--status-success);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .order-timeline-list {
+      list-style: none;
+      position: relative;
+      padding-left: var(--space-6);
+      margin-top: var(--space-4);
+    }
+    .order-timeline-list::before {
+      content: "";
+      position: absolute;
+      top: 6px;
+      bottom: 6px;
+      left: 7px;
+      width: 2px;
+      background-color: var(--border-color);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: var(--space-4);
+      font-size: 0.88rem;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -24px;
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--sage);
+      border: 2px solid var(--bg-surface);
+    }
+  </style>
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main class="container" style="padding-top:var(--space-8);padding-bottom:var(--space-16);" id="order-container">
+    <div id="loading-state" style="padding:var(--space-16);text-align:center;">
+      <p style="color:var(--text-muted);">Retrieving order details...</p>
+    </div>
+
+    <div id="order-content" style="display:none;">
+      <!-- Banner -->
+      <div class="confirmation-banner">
+        <div class="confirmation-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <div>
+          <span style="font-size:0.85rem;color:#556B2F;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;">Payment Confirmed</span>
+          <h1 style="font-size:1.85rem;margin-top:var(--space-1);margin-bottom:var(--space-1);">
+            Thank you, <span id="conf-customer-name"></span>
+          </h1>
+          <p style="color:var(--text-muted);margin-bottom:0;font-size:0.95rem;">
+            Order <strong style="color:var(--text-main);" id="conf-order-num"></strong> is queued for preparation in our Portland studio.
+          </p>
+        </div>
+      </div>
+
+      <div class="cart-layout">
+        <!-- Details Column -->
+        <div>
+          <!-- Purchased Items -->
+          <div style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:var(--space-6);margin-bottom:var(--space-6);box-shadow:var(--shadow-sm);">
+            <h3 style="margin-bottom:var(--space-4);">Provisions in this Package</h3>
+            <div id="conf-items-list" style="display:flex;flex-direction:column;gap:var(--space-4);"></div>
+          </div>
+
+          <!-- Timeline -->
+          <div style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:var(--space-6);box-shadow:var(--shadow-sm);">
+            <h3 style="margin-bottom:var(--space-2);">Fulfillment Status</h3>
+            <ul class="order-timeline-list" id="conf-timeline"></ul>
+          </div>
+        </div>
+
+        <!-- Sidebar Column -->
+        <aside>
+          <!-- Financial Summary -->
+          <div class="order-summary-box" style="margin-bottom:var(--space-6);">
+            <h3 style="font-size:1.2rem;">Receipt Summary</h3>
+            <div class="summary-row">
+              <span style="color:var(--text-muted);">Subtotal</span>
+              <span class="price" id="conf-subtotal"></span>
+            </div>
+            <div class="summary-row" id="conf-discount-row" style="display:none;color:var(--status-success);">
+              <span>Promotion</span>
+              <span class="price" id="conf-discount"></span>
+            </div>
+            <div class="summary-row">
+              <span style="color:var(--text-muted);">Shipping</span>
+              <span class="price" id="conf-shipping"></span>
+            </div>
+            <div class="summary-row total">
+              <span>Total Settled</span>
+              <span class="price" id="conf-total" style="color:var(--terracotta);"></span>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-light);padding-top:var(--space-2);border-top:1px solid var(--border-color);">
+              Authorization Ref: <span id="conf-charge-id"></span>
+            </div>
+          </div>
+
+          <!-- Shipping Address -->
+          <div style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:var(--space-6);box-shadow:var(--shadow-sm);">
+            <h4 style="margin-bottom:var(--space-3);">Delivery Address</h4>
+            <address id="conf-address" style="font-style:normal;font-size:0.92rem;color:var(--text-muted);line-height:1.6;"></address>
+          </div>
+
+          <div style="margin-top:var(--space-6);display:flex;flex-direction:column;gap:var(--space-3);">
+            <a href="/account" class="btn btn-secondary" style="width:100%;">View All Orders</a>
+            <a href="/shop" class="btn btn-ghost" style="width:100%;">Return to Storefront</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import { apiRequest } from '/js/api.js';
+    import { formatPrice, initGlobalLayout } from '/js/components.js';
+
+    initGlobalLayout();
+
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    const orderId = pathParts[1];
+
+    async function loadOrder() {
+      try {
+        const order = await apiRequest(`/api/orders/${orderId}`);
+        renderOrder(order);
+      } catch (err) {
+        document.getElementById('order-container').innerHTML = `
+          <div style="padding:var(--space-16);text-align:center;">
+            <h2>Order Details Unavailable</h2>
+            <p style="color:var(--text-muted);margin-bottom:var(--space-6);">${err.message || 'Unable to locate order'}</p>
+            <a href="/" class="btn btn-primary">Return to Kettle &amp; Crate</a>
+          </div>
+        `;
+      }
+    }
+
+    function renderOrder(order) {
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('order-content').style.display = 'block';
+
+      document.getElementById('conf-customer-name').textContent = order.customerName.split(' ')[0];
+      document.getElementById('conf-order-num').textContent = order.orderNumber;
+      document.getElementById('conf-charge-id').textContent = order.chargeId;
+
+      // Items
+      const itemsList = document.getElementById('conf-items-list');
+      itemsList.innerHTML = order.items.map((it) => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:var(--space-3);border-bottom:1px solid var(--border-color);">
+          <div>
+            <div style="font-weight:600;font-size:0.95rem;">${it.name}</div>
+            <div style="color:var(--text-muted);font-size:0.85rem;">Quantity: ${it.qty} &middot; SKU: ${it.sku}</div>
+          </div>
+          <span class="price">${formatPrice(it.totalPrice)}</span>
+        </div>
+      `).join('');
+
+      // Timeline
+      const timelineEl = document.getElementById('conf-timeline');
+      timelineEl.innerHTML = order.timeline.map((event) => `
+        <li class="timeline-item">
+          <span class="timeline-dot"></span>
+          <strong style="text-transform:capitalize;display:block;">${event.event}</strong>
+          <span style="color:var(--text-muted);">${event.detail}</span>
+          <div style="font-size:0.75rem;color:var(--text-light);margin-top:2px;">${new Date(event.at).toLocaleString()}</div>
+        </li>
+      `).join('');
+
+      // Financials
+      document.getElementById('conf-subtotal').textContent = formatPrice(order.subtotal);
+      if (order.discountAmount > 0) {
+        const discRow = document.getElementById('conf-discount-row');
+        discRow.style.display = 'flex';
+        document.getElementById('conf-discount').textContent = `-${formatPrice(order.discountAmount)}`;
+      }
+      document.getElementById('conf-shipping').textContent = order.shipping === 0 ? 'FREE' : formatPrice(order.shipping);
+      document.getElementById('conf-total').textContent = formatPrice(order.total);
+
+      // Address
+      const addr = order.shippingAddress;
+      document.getElementById('conf-address').innerHTML = `
+        <strong>${addr.name}</strong><br/>
+        ${addr.line1}${addr.line2 ? '<br/>' + addr.line2 : ''}<br/>
+        ${addr.city}, ${addr.region} ${addr.postcode}<br/>
+        ${addr.country}
+      `;
+    }
+
+    loadOrder();
+  </script>
+</body>
+</html>

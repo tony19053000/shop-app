@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create an Account &middot; Kettle &amp; Crate</title>
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main class="container" style="padding-block:var(--space-12);display:flex;justify-content:center;">
+    <div style="width:100%;max-width:440px;">
+      <div class="card" style="padding:var(--space-8);box-shadow:var(--shadow-md);">
+        <h1 style="font-size:1.85rem;margin-bottom:var(--space-2);text-align:center;">Join Kettle &amp; Crate</h1>
+        <p style="text-align:center;color:var(--text-muted);font-size:0.92rem;margin-bottom:var(--space-6);">
+          Create an account to track shipments, record receipts, and receive our morning dispatches.
+        </p>
+
+        <form id="signup-form">
+          <div class="form-group">
+            <label for="signup-name" class="form-label">Full Name</label>
+            <input type="text" id="signup-name" class="form-input" autocomplete="name" placeholder="E.g. Eleanor Vance" required />
+          </div>
+
+          <div class="form-group">
+            <label for="signup-email" class="form-label">Email Address</label>
+            <input type="email" id="signup-email" class="form-input" autocomplete="email" placeholder="eleanor@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="signup-password" class="form-label">Password</label>
+            <input type="password" id="signup-password" class="form-input" minlength="6" autocomplete="new-password" placeholder="At least 6 characters" required />
+            <span class="form-hint">Must contain at least 6 characters.</span>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="signup-submit-btn" style="width:100%;height:46px;margin-top:var(--space-2);">
+            Create Account
+          </button>
+        </form>
+
+        <div style="border-top:1px solid var(--border-color);margin-top:var(--space-6);padding-top:var(--space-5);text-align:center;">
+          <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:0;">
+            Already have an account? <a href="/signin" style="color:var(--terracotta);font-weight:600;">Sign in here</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import { checkSession, signup } from '/js/auth.js';
+    import { initGlobalLayout, showToast } from '/js/components.js';
+
+    initGlobalLayout();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get('redirect') || '/account';
+
+    const form = document.getElementById('signup-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+
+      const submitBtn = document.getElementById('signup-submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating Account...';
+
+      try {
+        const user = await signup(name, email, password);
+        showToast(`Welcome to Kettle & Crate, ${user.name.split(' ')[0]}!`, 'success');
+        setTimeout(() => {
+          window.location.href = redirectUrl;
+        }, 500);
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Create Account';
+        showToast(err.message || 'Unable to create account', 'danger');
+      }
+    });
+
+    checkSession().then((user) => {
+      if (user) {
+        window.location.href = redirectUrl;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop Provisions &middot; Kettle &amp; Crate</title>
+  <meta name="description" content="Explore heirloom-grade cookware, hand-thrown dinnerware, manual coffee gear, and small-batch pantry provisions." />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main class="container">
+    <div style="padding-top:var(--space-8);padding-bottom:var(--space-4);">
+      <h1 id="shop-title" style="margin-bottom:var(--space-2);">All Provisions</h1>
+      <p id="shop-description" class="lead" style="max-width:700px;">
+        Curated tools and kitchenware made by independent family-run workshops and artisans.
+      </p>
+    </div>
+
+    <div class="shop-layout">
+      <!-- Filter Sidebar -->
+      <aside class="filter-sidebar" aria-label="Catalog filters">
+        <!-- Categories Filter -->
+        <div class="filter-section">
+          <h4 class="filter-title">Collections</h4>
+          <ul class="filter-option-list" id="category-filter-list">
+            <li>
+              <label class="filter-option-item">
+                <input type="radio" name="category" value="" checked />
+                <span>All Goods</span>
+              </label>
+            </li>
+            <li>
+              <label class="filter-option-item">
+                <input type="radio" name="category" value="cookware" />
+                <span>Cookware</span>
+              </label>
+            </li>
+            <li>
+              <label class="filter-option-item">
+                <input type="radio" name="category" value="tableware" />
+                <span>Tableware</span>
+              </label>
+            </li>
+            <li>
+              <label class="filter-option-item">
+                <input type="radio" name="category" value="coffee-tea" />
+                <span>Coffee &amp; Tea</span>
+              </label>
+            </li>
+            <li>
+              <label class="filter-option-item">
+                <input type="radio" name="category" value="pantry" />
+                <span>Pantry</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Price Range Filter -->
+        <div class="filter-section">
+          <h4 class="filter-title">Price Range</h4>
+          <ul class="filter-option-list">
+            <li>
+              <label class="filter-option-item">
+                <input type="radio" name="priceRange" value="all" checked />
+                <span>All Prices</span>
+              </label>
+            </li>
+            <li>
+              <label class="filter-option-item">
+                <input type="radio" name="priceRange" value="under-50" />
+                <span>Under $50</span>
+              </label>
+            </li>
+            <li>
+              <label class="filter-option-item">
+                <input type="radio" name="priceRange" value="50-100" />
+                <span>$50 &ndash; $100</span>
+              </label>
+            </li>
+            <li>
+              <label class="filter-option-item">
+                <input type="radio" name="priceRange" value="over-100" />
+                <span>Over $100</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- In Stock Filter -->
+        <div class="filter-section">
+          <label class="filter-option-item" style="font-weight:500;color:var(--text-main);">
+            <input type="checkbox" id="in-stock-only" />
+            <span>In stock only</span>
+          </label>
+        </div>
+
+        <button type="button" class="btn btn-secondary btn-sm" id="reset-filters-btn">
+          Reset Filters
+        </button>
+      </aside>
+
+      <!-- Products Area -->
+      <section>
+        <div class="shop-header">
+          <span style="font-size:0.92rem;color:var(--text-muted);" id="result-count">
+            Loading provisions...
+          </span>
+
+          <div style="display:flex;align-items:center;gap:var(--space-2);">
+            <label for="sort-select" style="font-size:0.88rem;color:var(--text-muted);">Sort by:</label>
+            <select id="sort-select" class="shop-sort-select">
+              <option value="name">Featured &middot; Name</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="product-grid" id="shop-product-grid">
+          <!-- Loaded via JS -->
+        </div>
+
+        <!-- No Results Fallback -->
+        <div id="no-results-state" style="display:none;padding:var(--space-12) var(--space-6);text-align:center;background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius-lg);margin-top:var(--space-6);">
+          <div style="max-width:440px;margin-inline:auto;">
+            <div style="width:64px;height:64px;margin-inline:auto;border-radius:50%;background:var(--bg-canvas);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--text-muted);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+            </div>
+            <h3 style="margin-bottom:var(--space-2);">No provisions match your criteria</h3>
+            <p style="color:var(--text-muted);font-size:0.92rem;margin-bottom:var(--space-6);">
+              Try broadening your search terms or explore one of our featured collections below.
+            </p>
+            <div style="display:flex;gap:var(--space-2);justify-content:center;flex-wrap:wrap;">
+              <a href="/shop/cookware" class="btn btn-secondary btn-sm">Cookware</a>
+              <a href="/shop/tableware" class="btn btn-secondary btn-sm">Tableware</a>
+              <a href="/shop/coffee-tea" class="btn btn-secondary btn-sm">Coffee &amp; Tea</a>
+              <a href="/shop/pantry" class="btn btn-secondary btn-sm">Pantry</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import { initGlobalLayout, renderProductCard } from '/js/components.js';
+
+    initGlobalLayout();
+
+    const categoryDescriptions = {
+      cookware: {
+        title: 'Cookware',
+        desc: 'Heirloom-grade cast iron, multi-clad stainless steel, and enameled braisers built for lifetime durability.'
+      },
+      tableware: {
+        title: 'Tableware',
+        desc: 'Hand-thrown stoneware plates, fluted pasta bowls, and Belgian flax linens made for everyday gatherings.'
+      },
+      'coffee-tea': {
+        title: 'Coffee & Tea',
+        desc: 'Precision ceramic pour-over drippers, balanced gooseneck kettles, double-walled carafes, and substantial mugs.'
+      },
+      pantry: {
+        title: 'Pantry',
+        desc: 'Wood-smoked sea salts, single-estate cold pressed oils, raw wildflower honeys, and stone-ground provisions.'
+      }
+    };
+
+    let allProducts = [];
+
+    // Parse URL path and query parameters
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('q') || '';
+    let categoryFromUrl = '';
+
+    if (pathParts[0] === 'shop' && pathParts[1]) {
+      categoryFromUrl = pathParts[1];
+    }
+
+    // Set initial category radio
+    if (categoryFromUrl) {
+      const radio = document.querySelector(`input[name="category"][value="${categoryFromUrl}"]`);
+      if (radio) radio.checked = true;
+    }
+
+    async function loadCatalog() {
+      try {
+        const queryParams = new URLSearchParams();
+        if (searchQuery) queryParams.set('q', searchQuery);
+
+        const res = await fetch(`/api/products?${queryParams.toString()}`);
+        allProducts = await res.json();
+        applyFiltersAndRender();
+      } catch (err) {
+        document.getElementById('shop-product-grid').innerHTML = '<p>Unable to load goods.</p>';
+      }
+    }
+
+    function applyFiltersAndRender() {
+      const selectedCategory = document.querySelector('input[name="category"]:checked')?.value || '';
+      const selectedPrice = document.querySelector('input[name="priceRange"]:checked')?.value || 'all';
+      const inStockOnly = document.getElementById('in-stock-only').checked;
+      const sortValue = document.getElementById('sort-select').value;
+
+      // Update Header Text
+      const titleEl = document.getElementById('shop-title');
+      const descEl = document.getElementById('shop-description');
+
+      if (searchQuery) {
+        titleEl.textContent = `Search results for "${searchQuery}"`;
+        descEl.textContent = 'Provisions matching your query across all workshop departments.';
+      } else if (selectedCategory && categoryDescriptions[selectedCategory]) {
+        titleEl.textContent = categoryDescriptions[selectedCategory].title;
+        descEl.textContent = categoryDescriptions[selectedCategory].desc;
+      } else {
+        titleEl.textContent = 'All Provisions';
+        descEl.textContent = 'Curated tools and kitchenware made by independent family-run workshops and artisans.';
+      }
+
+      let filtered = allProducts.filter((product) => {
+        // Category
+        if (selectedCategory && product.category !== selectedCategory) {
+          return false;
+        }
+
+        // Price
+        if (selectedPrice === 'under-50' && product.price >= 5000) return false;
+        if (selectedPrice === '50-100' && (product.price < 5000 || product.price > 10000)) return false;
+        if (selectedPrice === 'over-100' && product.price <= 10000) return false;
+
+        // In stock
+        if (inStockOnly && product.stock <= 0) return false;
+
+        return true;
+      });
+
+      // Sort
+      if (sortValue === 'price_asc') {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortValue === 'price_desc') {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (sortValue === 'rating') {
+        filtered.sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
+      } else if (sortValue === 'name') {
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
+      // Render
+      const grid = document.getElementById('shop-product-grid');
+      const noResults = document.getElementById('no-results-state');
+      const countEl = document.getElementById('result-count');
+
+      countEl.textContent = `Showing ${filtered.length} ${filtered.length === 1 ? 'provision' : 'provisions'}`;
+
+      if (filtered.length === 0) {
+        grid.style.display = 'none';
+        noResults.style.display = 'block';
+      } else {
+        grid.style.display = 'grid';
+        noResults.style.display = 'none';
+        grid.innerHTML = filtered.map((p) => renderProductCard(p)).join('');
+      }
+    }
+
+    // Attach filter event listeners
+    document.querySelectorAll('input[name="category"]').forEach((el) => {
+      el.addEventListener('change', applyFiltersAndRender);
+    });
+
+    document.querySelectorAll('input[name="priceRange"]').forEach((el) => {
+      el.addEventListener('change', applyFiltersAndRender);
+    });
+
+    document.getElementById('in-stock-only').addEventListener('change', applyFiltersAndRender);
+    document.getElementById('sort-select').addEventListener('change', applyFiltersAndRender);
+
+    document.getElementById('reset-filters-btn').addEventListener('click', () => {
+      document.querySelector('input[name="category"][value=""]').checked = true;
+      document.querySelector('input[name="priceRange"][value="all"]').checked = true;
+      document.getElementById('in-stock-only').checked = false;
+      document.getElementById('sort-select').value = 'name';
+      applyFiltersAndRender();
+    });
+
+    loadCatalog();
+  </script>
+</body>
+</html>

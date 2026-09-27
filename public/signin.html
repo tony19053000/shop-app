@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In &middot; Kettle &amp; Crate</title>
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main class="container" style="padding-block:var(--space-12);display:flex;justify-content:center;">
+    <div style="width:100%;max-width:440px;">
+      <div class="card" style="padding:var(--space-8);box-shadow:var(--shadow-md);">
+        <h1 style="font-size:1.85rem;margin-bottom:var(--space-2);text-align:center;">Welcome Back</h1>
+        <p style="text-align:center;color:var(--text-muted);font-size:0.92rem;margin-bottom:var(--space-6);">
+          Sign in to access your orders, track packages, and manage studio preferences.
+        </p>
+
+        <form id="signin-form">
+          <div class="form-group">
+            <label for="signin-email" class="form-label">Email Address</label>
+            <input type="email" id="signin-email" class="form-input" autocomplete="username" required />
+          </div>
+
+          <div class="form-group">
+            <label for="signin-password" class="form-label">Password</label>
+            <input type="password" id="signin-password" class="form-input" autocomplete="current-password" required />
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="signin-submit-btn" style="width:100%;height:46px;margin-top:var(--space-2);">
+            Sign In
+          </button>
+        </form>
+
+        <div style="border-top:1px solid var(--border-color);margin-top:var(--space-6);padding-top:var(--space-5);text-align:center;">
+          <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:var(--space-4);">
+            New to Kettle &amp; Crate? <a href="/signup" style="color:var(--terracotta);font-weight:600;">Create an account</a>
+          </p>
+
+          <!-- Quick login helpers for seeded accounts -->
+          <div style="background:var(--bg-canvas);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:var(--space-4);text-align:left;">
+            <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.04em;color:var(--text-light);display:block;margin-bottom:var(--space-2);font-weight:600;">
+              Seeded Accounts
+            </span>
+            <div style="display:flex;flex-direction:column;gap:var(--space-2);">
+              <button type="button" class="btn btn-secondary btn-sm" id="autofill-admin" style="justify-content:flex-start;font-size:0.8rem;">
+                Administrator (admin@kettleandcrate.com)
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" id="autofill-nora" style="justify-content:flex-start;font-size:0.8rem;">
+                Customer &middot; Nora Bennett (nora.bennett@example.com)
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" id="autofill-sam" style="justify-content:flex-start;font-size:0.8rem;">
+                Customer &middot; Sam Okafor (sam.okafor@example.com)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import { checkSession, login } from '/js/auth.js';
+    import { initGlobalLayout, showToast } from '/js/components.js';
+
+    initGlobalLayout();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectUrl = urlParams.get('redirect') || '/account';
+
+    // Autofill buttons
+    document.getElementById('autofill-admin').addEventListener('click', () => {
+      document.getElementById('signin-email').value = 'admin@kettleandcrate.com';
+      document.getElementById('signin-password').value = 'admin-pass';
+    });
+
+    document.getElementById('autofill-nora').addEventListener('click', () => {
+      document.getElementById('signin-email').value = 'nora.bennett@example.com';
+      document.getElementById('signin-password').value = 'welcome-home';
+    });
+
+    document.getElementById('autofill-sam').addEventListener('click', () => {
+      document.getElementById('signin-email').value = 'sam.okafor@example.com';
+      document.getElementById('signin-password').value = 'welcome-home';
+    });
+
+    const form = document.getElementById('signin-form');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('signin-email').value.trim();
+      const password = document.getElementById('signin-password').value;
+
+      const submitBtn = document.getElementById('signin-submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Verifying...';
+
+      try {
+        const user = await login(email, password);
+        showToast(`Welcome back, ${user.name.split(' ')[0]}`, 'success');
+        setTimeout(() => {
+          window.location.href = redirectUrl;
+        }, 500);
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign In';
+        showToast(err.message || 'Invalid email or password', 'danger');
+      }
+    });
+
+    // If already logged in, redirect
+    checkSession().then((user) => {
+      if (user) {
+        window.location.href = redirectUrl;
+      }
+    });
+  </script>
+</body>
+</html>

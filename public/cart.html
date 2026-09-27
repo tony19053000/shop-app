@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shopping Bag &middot; Kettle &amp; Crate</title>
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main class="container" style="padding-top:var(--space-8);padding-bottom:var(--space-16);">
+    <h1 style="margin-bottom:var(--space-6);">Your Shopping Bag</h1>
+
+    <div id="cart-content-wrapper">
+      <!-- Free Shipping Progress Tracker -->
+      <div class="shipping-progress-box" id="shipping-tracker-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.92rem;font-weight:500;">
+          <span id="shipping-tracker-message">Add $75.00 for free ground delivery</span>
+          <span id="shipping-tracker-status" style="font-size:0.82rem;color:var(--text-muted);">Standard $6.95</span>
+        </div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="shipping-tracker-fill" style="width:0%;"></div>
+        </div>
+      </div>
+
+      <div class="cart-layout">
+        <!-- Line Items Column -->
+        <div>
+          <div style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius-md);overflow:hidden;padding:var(--space-6);box-shadow:var(--shadow-sm);">
+            <table class="cart-items-table" id="cart-table">
+              <thead>
+                <tr style="border-bottom:1px solid var(--border-color);text-align:left;font-size:0.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;">
+                  <th style="padding-bottom:var(--space-3);">Item</th>
+                  <th style="padding-bottom:var(--space-3);text-align:center;">Qty</th>
+                  <th style="padding-bottom:var(--space-3);text-align:right;">Subtotal</th>
+                  <th style="padding-bottom:var(--space-3);width:40px;"></th>
+                </tr>
+              </thead>
+              <tbody id="cart-items-body"></tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:var(--space-4);display:flex;justify-content:space-between;align-items:center;">
+            <a href="/shop" class="btn btn-ghost" style="font-weight:500;">&larr; Continue Exploring Provisions</a>
+            <button type="button" class="btn btn-ghost" id="clear-cart-btn" style="color:var(--text-muted);font-size:0.85rem;">Empty Bag</button>
+          </div>
+        </div>
+
+        <!-- Order Summary Column -->
+        <aside>
+          <div class="order-summary-box">
+            <h3 style="font-size:1.25rem;">Order Summary</h3>
+
+            <!-- Discount Code Form -->
+            <div style="border-bottom:1px solid var(--border-color);padding-bottom:var(--space-4);">
+              <label for="discount-input" class="form-label" style="font-size:0.85rem;">Promotional Code</label>
+              <div style="display:flex;gap:var(--space-2);">
+                <input
+                  type="text"
+                  id="discount-input"
+                  class="form-input"
+                  placeholder="WELCOME10"
+                  style="text-transform:uppercase;height:38px;font-size:0.88rem;"
+                />
+                <button type="button" class="btn btn-secondary btn-sm" id="apply-discount-btn">Apply</button>
+              </div>
+              <p id="discount-feedback" style="font-size:0.8rem;margin-top:var(--space-1);margin-bottom:0;display:none;"></p>
+            </div>
+
+            <div class="summary-row">
+              <span style="color:var(--text-muted);">Provisions Subtotal</span>
+              <span class="price" id="summary-subtotal">$0.00</span>
+            </div>
+
+            <div class="summary-row" id="summary-discount-row" style="display:none;color:var(--status-success);">
+              <span>Promotion (WELCOME10)</span>
+              <span class="price" id="summary-discount">-$0.00</span>
+            </div>
+
+            <div class="summary-row">
+              <span style="color:var(--text-muted);">Standard Delivery</span>
+              <span class="price" id="summary-shipping">Calculated</span>
+            </div>
+
+            <div class="summary-row total">
+              <span>Estimated Total</span>
+              <span class="price" id="summary-total" style="color:var(--terracotta);">$0.00</span>
+            </div>
+
+            <a href="/checkout" class="btn btn-primary btn-lg" id="checkout-cta-btn" style="width:100%;margin-top:var(--space-2);">
+              Proceed to Checkout
+            </a>
+
+            <p style="font-size:0.8rem;color:var(--text-light);text-align:center;margin-top:var(--space-2);margin-bottom:0;">
+              Taxes calculated at checkout &middot; Free 30-day returns
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Empty Bag State -->
+    <div id="cart-empty-view" style="display:none;padding:var(--space-16) var(--space-6);text-align:center;background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius-lg);margin-block:var(--space-6);">
+      <div style="max-width:440px;margin-inline:auto;">
+        <div style="width:68px;height:68px;margin-inline:auto;border-radius:50%;background:var(--bg-canvas);display:flex;align-items:center;justify-content:center;margin-bottom:var(--space-4);color:var(--text-muted);">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="8" cy="21" r="1"/>
+            <circle cx="19" cy="21" r="1"/>
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+          </svg>
+        </div>
+        <h2 style="margin-bottom:var(--space-2);">Your shopping bag is empty</h2>
+        <p style="color:var(--text-muted);font-size:0.95rem;margin-bottom:var(--space-6);">
+          Explore our handcrafted cookware, tableware, coffee gear, and small-batch pantry provisions.
+        </p>
+        <a href="/shop" class="btn btn-primary">Browse All Goods</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import {
+      clearCart,
+      getCartState,
+      getDiscountCode,
+      removeItem,
+      setDiscountCode,
+      subscribeCart,
+      updateQty
+    } from '/js/cart.js';
+    import { formatPrice, initGlobalLayout, showToast } from '/js/components.js';
+
+    initGlobalLayout();
+
+    function renderCart() {
+      const state = getCartState();
+      const contentWrap = document.getElementById('cart-content-wrapper');
+      const emptyView = document.getElementById('cart-empty-view');
+
+      if (state.items.length === 0) {
+        contentWrap.style.display = 'none';
+        emptyView.style.display = 'block';
+        return;
+      }
+
+      contentWrap.style.display = 'block';
+      emptyView.style.display = 'none';
+
+      // 1. Shipping Progress Bar
+      const trackerMsg = document.getElementById('shipping-tracker-message');
+      const trackerFill = document.getElementById('shipping-tracker-fill');
+      const trackerStatus = document.getElementById('shipping-tracker-status');
+
+      if (state.progressToFreeShipping >= 100) {
+        trackerMsg.innerHTML = '<strong>Unlocked!</strong> You qualify for free standard ground delivery.';
+        trackerFill.style.width = '100%';
+        trackerFill.style.backgroundColor = 'var(--status-success)';
+        trackerStatus.textContent = 'FREE';
+        trackerStatus.style.color = 'var(--status-success)';
+      } else {
+        trackerMsg.innerHTML = `Add <strong>${formatPrice(state.amountToFreeShipping)}</strong> more to unlock free delivery`;
+        trackerFill.style.width = `${state.progressToFreeShipping}%`;
+        trackerFill.style.backgroundColor = 'var(--sage)';
+        trackerStatus.textContent = `$${(state.shippingCost / 100).toFixed(2)}`;
+        trackerStatus.style.color = 'var(--text-muted)';
+      }
+
+      // 2. Line Items Table
+      const tbody = document.getElementById('cart-items-body');
+      tbody.innerHTML = state.items.map((item) => `
+        <tr class="cart-item-row" data-product-id="${item.productId}">
+          <td>
+            <div style="display:flex;align-items:center;gap:var(--space-4);">
+              <img src="${item.image}" alt="${item.name}" class="cart-item-thumb" />
+              <div>
+                <a href="/product/${item.productId}" style="font-weight:600;font-size:0.95rem;display:block;">${item.name}</a>
+                <span style="font-size:0.82rem;color:var(--text-muted);">${formatPrice(item.price)} each</span>
+              </div>
+            </div>
+          </td>
+          <td style="text-align:center;">
+            <div class="qty-picker" style="height:36px;">
+              <button type="button" class="qty-btn btn-cart-dec" data-id="${item.productId}" style="width:32px;height:36px;">&minus;</button>
+              <span class="qty-value" style="width:28px;">${item.qty}</span>
+              <button type="button" class="qty-btn btn-cart-inc" data-id="${item.productId}" style="width:32px;height:36px;">&plus;</button>
+            </div>
+          </td>
+          <td style="text-align:right;">
+            <span class="price">${formatPrice(item.price * item.qty)}</span>
+          </td>
+          <td style="text-align:right;">
+            <button type="button" class="btn-ghost btn-remove-item" data-id="${item.productId}" aria-label="Remove item" style="color:var(--text-light);padding:4px;">
+              &times;
+            </button>
+          </td>
+        </tr>
+      `).join('');
+
+      // Attach line item listeners
+      tbody.querySelectorAll('.btn-cart-dec').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = Number(btn.dataset.id);
+          const current = state.items.find((it) => it.productId === id);
+          if (current) updateQty(id, current.qty - 1);
+        });
+      });
+
+      tbody.querySelectorAll('.btn-cart-inc').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = Number(btn.dataset.id);
+          const current = state.items.find((it) => it.productId === id);
+          if (current && current.qty < 10) updateQty(id, current.qty + 1);
+        });
+      });
+
+      tbody.querySelectorAll('.btn-remove-item').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = Number(btn.dataset.id);
+          removeItem(id);
+          showToast('Item removed from shopping bag', 'info');
+        });
+      });
+
+      // 3. Summary Block
+      document.getElementById('summary-subtotal').textContent = formatPrice(state.subtotal);
+
+      const discountRow = document.getElementById('summary-discount-row');
+      if (state.discountAmount > 0) {
+        discountRow.style.display = 'flex';
+        document.getElementById('summary-discount').textContent = `-${formatPrice(state.discountAmount)}`;
+      } else {
+        discountRow.style.display = 'none';
+      }
+
+      document.getElementById('summary-shipping').textContent = state.shippingCost === 0 ? 'FREE' : formatPrice(state.shippingCost);
+      document.getElementById('summary-total').textContent = formatPrice(state.total);
+    }
+
+    // Discount code handling
+    const discountInput = document.getElementById('discount-input');
+    const applyDiscountBtn = document.getElementById('apply-discount-btn');
+    const discountFeedback = document.getElementById('discount-feedback');
+
+    discountInput.value = getDiscountCode();
+
+    applyDiscountBtn.addEventListener('click', () => {
+      const code = discountInput.value.trim().toUpperCase();
+      const state = getCartState();
+
+      if (!code) {
+        setDiscountCode('');
+        discountFeedback.style.display = 'none';
+        return;
+      }
+
+      if (code === 'WELCOME10') {
+        if (state.subtotal >= 5000) {
+          setDiscountCode('WELCOME10');
+          discountFeedback.style.display = 'block';
+          discountFeedback.style.color = 'var(--status-success)';
+          discountFeedback.textContent = '10% promotional discount applied!';
+          showToast('Promotional code WELCOME10 applied', 'success');
+        } else {
+          discountFeedback.style.display = 'block';
+          discountFeedback.style.color = 'var(--status-warning)';
+          discountFeedback.textContent = 'Code WELCOME10 requires an order subtotal over $50.00';
+          showToast('Subtotal must be over $50 to use WELCOME10', 'warning');
+        }
+      } else {
+        discountFeedback.style.display = 'block';
+        discountFeedback.style.color = 'var(--status-danger)';
+        discountFeedback.textContent = 'Invalid promotional code entered';
+        showToast('Invalid promotional code', 'danger');
+      }
+    });
+
+    document.getElementById('clear-cart-btn').addEventListener('click', () => {
+      clearCart();
+      showToast('Shopping bag cleared', 'info');
+    });
+
+    subscribeCart(renderCart);
+    renderCart();
+  </script>
+</body>
+</html>
