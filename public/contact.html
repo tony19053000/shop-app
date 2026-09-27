@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Studio &middot; Kettle &amp; Crate</title>
+  <meta name="description" content="Reach our Portland kitchen studio team for order questions, care recommendations, and artisan inquiries." />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main class="container" style="padding-top:var(--space-8);padding-bottom:var(--space-16);">
+    <header style="text-align:center;margin-bottom:var(--space-10);">
+      <span class="badge badge-sage" style="margin-bottom:var(--space-3);">Get in Touch</span>
+      <h1 style="font-size:2.8rem;margin-bottom:var(--space-3);">Contact Our Studio Team</h1>
+      <p class="lead" style="margin-inline:auto;max-width:580px;">
+        We are a small, dedicated studio team in Portland, Oregon. Reach out with questions about tool selection, seasoning advice, or existing orders.
+      </p>
+    </header>
+
+    <div style="display:grid;grid-template-columns:1.2fr 0.8fr;gap:var(--space-12);max-width:960px;margin-inline:auto;">
+      <!-- Contact Form -->
+      <div class="card" style="padding:var(--space-8);">
+        <div id="contact-form-container">
+          <h2 style="font-size:1.5rem;margin-bottom:var(--space-2);">Send a Dispatch</h2>
+          <p style="color:var(--text-muted);font-size:0.92rem;margin-bottom:var(--space-6);">
+            We reply to all inquiries within one business day.
+          </p>
+
+          <form id="contact-form">
+            <div class="form-group">
+              <label for="contact-name" class="form-label">Your Name</label>
+              <input type="text" id="contact-name" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+              <label for="contact-email" class="form-label">Email Address</label>
+              <input type="email" id="contact-email" class="form-input" required />
+            </div>
+
+            <div class="form-group">
+              <label for="contact-subject" class="form-label">Subject</label>
+              <select id="contact-subject" class="form-select">
+                <option value="Order Question">Order Assistance or Tracking</option>
+                <option value="Care Advice">Cookware Care &amp; Seasoning Advice</option>
+                <option value="Returns">Returns or Exchanges</option>
+                <option value="Wholesale">Artisan &amp; Workshop Inquiry</option>
+                <option value="Other">General Inquiries</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="contact-message" class="form-label">Message</label>
+              <textarea id="contact-message" class="form-textarea" placeholder="How can our studio help you today?" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" id="contact-submit-btn" style="width:100%;">
+              Send Message to Studio
+            </button>
+          </form>
+        </div>
+
+        <!-- Success State -->
+        <div id="contact-success-state" style="display:none;text-align:center;padding:var(--space-8) var(--space-4);">
+          <div style="width:60px;height:60px;border-radius:50%;background:var(--sage-tint);color:var(--status-success);display:flex;align-items:center;justify-content:center;margin-inline:auto;margin-bottom:var(--space-4);">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+          <h3 style="font-size:1.6rem;margin-bottom:var(--space-2);">Message Sent to Our Studio</h3>
+          <p style="color:var(--text-muted);font-size:0.95rem;line-height:1.6;margin-bottom:var(--space-6);">
+            Thank you for reaching out. A member of our Portland team will review your note and respond to your email within one business day.
+          </p>
+          <button type="button" class="btn btn-secondary btn-sm" id="contact-reset-btn">Send Another Message</button>
+        </div>
+      </div>
+
+      <!-- Studio Information -->
+      <div>
+        <div class="card" style="padding:var(--space-6);margin-bottom:var(--space-6);">
+          <h3 style="font-size:1.2rem;margin-bottom:var(--space-4);">Studio Address</h3>
+          <address style="font-style:normal;font-size:0.95rem;color:var(--text-muted);line-height:1.7;">
+            <strong>Kettle &amp; Crate Studio &amp; Dispatch</strong><br/>
+            742 NW Industrial Street, Suite 300<br/>
+            Portland, Oregon 97209<br/>
+            United States
+          </address>
+        </div>
+
+        <div class="card" style="padding:var(--space-6);margin-bottom:var(--space-6);">
+          <h3 style="font-size:1.2rem;margin-bottom:var(--space-3);">Direct Inquiries</h3>
+          <div style="display:flex;flex-direction:column;gap:var(--space-2);font-size:0.92rem;color:var(--text-muted);">
+            <div>General: <strong>studio@kettleandcrate.com</strong></div>
+            <div>Returns: <strong>returns@kettleandcrate.com</strong></div>
+            <div>Studio Desk: <strong>(503) 555-0194</strong></div>
+            <div style="margin-top:var(--space-2);font-size:0.85rem;color:var(--text-light);">
+              Hours: Mon &ndash; Fri, 9:00 AM &ndash; 5:00 PM Pacific
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import { initGlobalLayout } from '/js/components.js';
+    initGlobalLayout();
+
+    const form = document.getElementById('contact-form');
+    const formContainer = document.getElementById('contact-form-container');
+    const successState = document.getElementById('contact-success-state');
+    const resetBtn = document.getElementById('contact-reset-btn');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      formContainer.style.display = 'none';
+      successState.style.display = 'block';
+    });
+
+    resetBtn.addEventListener('click', () => {
+      form.reset();
+      formContainer.style.display = 'block';
+      successState.style.display = 'none';
+    });
+  </script>
+</body>
+</html>

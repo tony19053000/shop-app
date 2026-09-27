@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found &middot; Kettle &amp; Crate</title>
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main class="container" style="padding-block:var(--space-16);text-align:center;">
+    <div style="max-width:520px;margin-inline:auto;">
+      <div style="width:84px;height:84px;border-radius:50%;background:var(--bg-subtle);display:flex;align-items:center;justify-content:center;margin-inline:auto;margin-bottom:var(--space-6);color:var(--terracotta);">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+
+      <span class="badge badge-warning" style="margin-bottom:var(--space-3);">Error 404</span>
+      <h1 style="font-size:2.4rem;margin-bottom:var(--space-3);">Page Off the Beaten Path</h1>
+      <p class="lead" style="margin-bottom:var(--space-6);">
+        The page or studio provision you are looking for may have been moved, renamed, or retired from our active catalog.
+      </p>
+
+      <div style="display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap;">
+        <a href="/" class="btn btn-primary">Return to Home</a>
+        <a href="/shop" class="btn btn-secondary">Explore Provisions</a>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import { initGlobalLayout } from '/js/components.js';
+    initGlobalLayout();
+  </script>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Account &middot; Kettle &amp; Crate</title>
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+  <style>
+    .account-tabs {
+      display: flex;
+      gap: var(--space-4);
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: var(--space-6);
+    }
+    .account-tab-btn {
+      background: none;
+      border: none;
+      padding-block: var(--space-3);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      position: relative;
+    }
+    .account-tab-btn.active {
+      color: var(--terracotta);
+    }
+    .account-tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: var(--terracotta);
+    }
+    .order-status-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .status-paid { background: #DEF7EC; color: #03543F; }
+    .status-shipped { background: #E1EFFE; color: #1E429F; }
+    .status-cancelled { background: #FDE8E8; color: #9B1C1C; }
+
+    /* Order Drawer / Modal */
+    .order-drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(31, 29, 26, 0.45);
+      backdrop-filter: blur(2px);
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition-fast);
+    }
+    .order-drawer-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .order-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 520px;
+      max-width: 95vw;
+      background: var(--bg-surface);
+      z-index: 1000;
+      transform: translateX(100%);
+      transition: transform var(--transition-fast);
+      padding: var(--space-8);
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+    .order-drawer.open {
+      transform: translateX(0);
+    }
+  </style>
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main class="container" style="padding-top:var(--space-8);padding-bottom:var(--space-16);">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-4);margin-bottom:var(--space-6);">
+      <div>
+        <h1 style="margin-bottom:var(--space-1);" id="account-heading">My Account</h1>
+        <p style="color:var(--text-muted);margin-bottom:0;" id="account-subheading">Manage your orders, shipment history, and studio preferences.</p>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm" id="account-signout-btn">Sign Out</button>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="account-tabs">
+      <button type="button" class="account-tab-btn active" id="tab-orders-btn">Order History</button>
+      <button type="button" class="account-tab-btn" id="tab-profile-btn">Profile &amp; Address</button>
+    </div>
+
+    <!-- Orders Tab -->
+    <div id="account-orders-section">
+      <!-- Status Filters -->
+      <div style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-6);flex-wrap:wrap;">
+        <span style="font-size:0.85rem;color:var(--text-muted);margin-right:var(--space-2);">Filter Status:</span>
+        <button type="button" class="btn btn-sm btn-secondary filter-status-btn active" data-status="">All</button>
+        <button type="button" class="btn btn-sm btn-ghost filter-status-btn" data-status="paid">Paid</button>
+        <button type="button" class="btn btn-sm btn-ghost filter-status-btn" data-status="shipped">Shipped</button>
+        <button type="button" class="btn btn-sm btn-ghost filter-status-btn" data-status="cancelled">Cancelled</button>
+      </div>
+
+      <!-- Orders List Container -->
+      <div id="orders-list-feed"></div>
+    </div>
+
+    <!-- Profile Tab -->
+    <div id="account-profile-section" style="display:none;">
+      <div class="card" style="max-width:600px;padding:var(--space-8);">
+        <h3 style="margin-bottom:var(--space-4);">Account Information</h3>
+        <div style="display:grid;grid-template-columns:140px 1fr;gap:var(--space-3);font-size:0.95rem;margin-bottom:var(--space-6);">
+          <span style="color:var(--text-muted);">Name:</span>
+          <strong id="profile-name"></strong>
+
+          <span style="color:var(--text-muted);">Email:</span>
+          <strong id="profile-email"></strong>
+
+          <span style="color:var(--text-muted);">Account Role:</span>
+          <span class="badge badge-sage" id="profile-role">Customer</span>
+
+          <span style="color:var(--text-muted);">Member Since:</span>
+          <span id="profile-since"></span>
+        </div>
+
+        <h3 style="margin-bottom:var(--space-3);border-top:1px solid var(--border-color);padding-top:var(--space-5);">Default Shipping Address</h3>
+        <address id="profile-address" style="font-style:normal;line-height:1.6;color:var(--text-muted);font-size:0.95rem;margin-bottom:0;"></address>
+      </div>
+    </div>
+  </main>
+
+  <!-- Order Detail Drawer -->
+  <div class="order-drawer-backdrop" id="order-drawer-backdrop"></div>
+  <aside class="order-drawer" id="order-drawer" aria-label="Order Details">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-color);padding-bottom:var(--space-4);">
+      <div>
+        <span style="font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em;">Order Details</span>
+        <h2 style="font-size:1.4rem;" id="drawer-order-number"></h2>
+      </div>
+      <button type="button" class="btn-ghost" id="order-drawer-close" aria-label="Close details" style="padding:4px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Status Banner & Tracking -->
+    <div id="drawer-status-box" style="padding:var(--space-4);border-radius:var(--radius-md);background:var(--bg-canvas);"></div>
+
+    <!-- Purchased Items -->
+    <div>
+      <h4 style="margin-bottom:var(--space-3);">Items</h4>
+      <div id="drawer-items-list" style="display:flex;flex-direction:column;gap:var(--space-3);"></div>
+    </div>
+
+    <!-- Timeline -->
+    <div>
+      <h4 style="margin-bottom:var(--space-2);">Activity Timeline</h4>
+      <ul class="order-timeline-list" id="drawer-timeline"></ul>
+    </div>
+
+    <!-- Refunds if any -->
+    <div id="drawer-refunds-section" style="display:none;background:#FDE8E8;border:1px solid #F98080;border-radius:var(--radius-md);padding:var(--space-4);">
+      <h4 style="color:#9B1C1C;margin-bottom:var(--space-2);">Refunds Processed</h4>
+      <div id="drawer-refunds-list" style="font-size:0.88rem;color:#771D1D;"></div>
+    </div>
+
+    <!-- Shipping destination -->
+    <div>
+      <h4 style="margin-bottom:var(--space-2);">Shipping Address</h4>
+      <address id="drawer-address" style="font-style:normal;font-size:0.9rem;color:var(--text-muted);line-height:1.6;"></address>
+    </div>
+
+    <!-- Order Actions: Cancel order if allowed -->
+    <div style="border-top:1px solid var(--border-color);padding-top:var(--space-5);margin-top:auto;">
+      <button type="button" class="btn btn-danger" id="cancel-order-btn" style="width:100%;display:none;">
+        Cancel Order &amp; Request Full Refund
+      </button>
+    </div>
+  </aside>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import { apiRequest } from '/js/api.js';
+    import { checkSession, logout } from '/js/auth.js';
+    import { formatPrice, initGlobalLayout, showToast } from '/js/components.js';
+
+    initGlobalLayout();
+
+    let currentUser = null;
+    let userOrders = [];
+    let currentFilteredStatus = '';
+    let selectedOrder = null;
+
+    async function initAccount() {
+      currentUser = await checkSession();
+      if (!currentUser) {
+        window.location.href = '/signin?redirect=/account';
+        return;
+      }
+
+      document.getElementById('account-heading').textContent = `Hello, ${currentUser.name.split(' ')[0]}`;
+      document.getElementById('profile-name').textContent = currentUser.name;
+      document.getElementById('profile-email').textContent = currentUser.email;
+      document.getElementById('profile-role').textContent = currentUser.role === 'admin' ? 'Administrator' : 'Customer';
+      document.getElementById('profile-since').textContent = new Date(currentUser.createdAt).toLocaleDateString();
+
+      const addr = currentUser.address;
+      if (addr) {
+        document.getElementById('profile-address').innerHTML = `
+          <strong>${addr.name}</strong><br/>
+          ${addr.line1}${addr.line2 ? '<br/>' + addr.line2 : ''}<br/>
+          ${addr.city}, ${addr.region} ${addr.postcode}<br/>
+          ${addr.country}
+        `;
+      } else {
+        document.getElementById('profile-address').textContent = 'No shipping address saved yet.';
+      }
+
+      await loadOrders();
+
+      // Check if URL has order ID: /account/orders/:id
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      if (pathParts[1] === 'orders' && pathParts[2]) {
+        openOrderDrawer(pathParts[2]);
+      }
+    }
+
+    async function loadOrders() {
+      try {
+        userOrders = await apiRequest('/api/orders');
+        renderOrdersList();
+      } catch (err) {
+        document.getElementById('orders-list-feed').innerHTML = '<p>Unable to load order history.</p>';
+      }
+    }
+
+    function renderOrdersList() {
+      const feed = document.getElementById('orders-list-feed');
+      let filtered = userOrders;
+      if (currentFilteredStatus) {
+        filtered = userOrders.filter((o) => o.status.toLowerCase() === currentFilteredStatus.toLowerCase());
+      }
+
+      if (filtered.length === 0) {
+        feed.innerHTML = `
+          <div style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:var(--radius-md);padding:var(--space-12);text-align:center;">
+            <p style="color:var(--text-muted);margin-bottom:var(--space-4);">No orders found matching this status filter.</p>
+            <a href="/shop" class="btn btn-secondary btn-sm">Explore Provisions</a>
+          </div>
+        `;
+        return;
+      }
+
+      feed.innerHTML = filtered.map((order) => {
+        let statusClass = 'status-paid';
+        if (order.status === 'shipped') statusClass = 'status-shipped';
+        if (order.status === 'cancelled') statusClass = 'status-cancelled';
+
+        return `
+          <div class="card" style="padding:var(--space-6);margin-bottom:var(--space-4);">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--space-3);border-bottom:1px solid var(--border-color);padding-bottom:var(--space-4);margin-bottom:var(--space-4);">
+              <div>
+                <span class="order-status-pill ${statusClass}">${order.status}</span>
+                <strong style="margin-left:var(--space-3);font-size:1.05rem;">${order.orderNumber}</strong>
+                <span style="color:var(--text-muted);font-size:0.85rem;margin-left:var(--space-2);">&middot; ${new Date(order.createdAt).toLocaleDateString()}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:var(--space-4);">
+                <span class="price" style="font-size:1.1rem;">${formatPrice(order.total)}</span>
+                <button type="button" class="btn btn-secondary btn-sm btn-view-order" data-id="${order.id}">
+                  View Details
+                </button>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:var(--space-4);flex-wrap:wrap;align-items:center;">
+              <div style="flex:1;min-width:240px;color:var(--text-muted);font-size:0.9rem;">
+                ${order.items.map((it) => `${it.qty}&times; ${it.name}`).join(', ')}
+              </div>
+              ${order.carrier && order.trackingNumber ? `
+                <div style="font-size:0.85rem;color:var(--text-muted);">
+                  Tracking: <strong>${order.carrier} ${order.trackingNumber}</strong>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      feed.querySelectorAll('.btn-view-order').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          openOrderDrawer(btn.dataset.id);
+        });
+      });
+    }
+
+    async function openOrderDrawer(orderId) {
+      try {
+        const order = await apiRequest(`/api/orders/${orderId}`);
+        selectedOrder = order;
+
+        document.getElementById('drawer-order-number').textContent = order.orderNumber;
+
+        // Status Box
+        const statusBox = document.getElementById('drawer-status-box');
+        let statusMsg = '';
+        if (order.status === 'paid') {
+          statusMsg = `<strong>Status: Paid</strong> &middot; Order placed on ${new Date(order.createdAt).toLocaleDateString()}. Queued for workshop packing.`;
+        } else if (order.status === 'shipped') {
+          statusMsg = `<strong>Status: Shipped</strong> &middot; Dispatched via ${order.carrier} (${order.trackingNumber})`;
+        } else if (order.status === 'cancelled') {
+          statusMsg = `<strong>Status: Cancelled</strong> &middot; Full refund of ${formatPrice(order.refundedTotal)} recorded.`;
+        }
+        statusBox.innerHTML = `<span style="font-size:0.9rem;">${statusMsg}</span>`;
+
+        // Items
+        const itemsList = document.getElementById('drawer-items-list');
+        itemsList.innerHTML = order.items.map((it) => `
+          <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:var(--space-2);border-bottom:1px solid var(--border-color);font-size:0.9rem;">
+            <div>
+              <strong>${it.name}</strong>
+              <div style="color:var(--text-muted);font-size:0.8rem;">Qty: ${it.qty} &middot; SKU: ${it.sku}</div>
+            </div>
+            <span class="price">${formatPrice(it.totalPrice)}</span>
+          </div>
+        `).join('');
+
+        // Timeline
+        const timelineEl = document.getElementById('drawer-timeline');
+        timelineEl.innerHTML = order.timeline.map((ev) => `
+          <li class="timeline-item">
+            <span class="timeline-dot"></span>
+            <strong style="text-transform:capitalize;">${ev.event}</strong>: ${ev.detail}
+            <div style="font-size:0.75rem;color:var(--text-light);">${new Date(ev.at).toLocaleString()}</div>
+          </li>
+        `).join('');
+
+        // Refunds
+        const refundSec = document.getElementById('drawer-refunds-section');
+        const refundList = document.getElementById('drawer-refunds-list');
+        if (order.refunds && order.refunds.length > 0) {
+          refundSec.style.display = 'block';
+          refundList.innerHTML = order.refunds.map((rf) => `
+            <div style="margin-bottom:var(--space-1);">
+              &bull; <strong>${formatPrice(rf.amount)}</strong> &ndash; ${rf.reason} (${new Date(rf.at).toLocaleDateString()})
+            </div>
+          `).join('');
+        } else {
+          refundSec.style.display = 'none';
+        }
+
+        // Address
+        const addr = order.shippingAddress;
+        document.getElementById('drawer-address').innerHTML = `
+          <strong>${addr.name}</strong><br/>
+          ${addr.line1}${addr.line2 ? '<br/>' + addr.line2 : ''}<br/>
+          ${addr.city}, ${addr.region} ${addr.postcode}<br/>
+          ${addr.country}
+        `;
+
+        // Cancel order button: permitted only for unshipped orders (status === 'paid')
+        const cancelBtn = document.getElementById('cancel-order-btn');
+        if (order.status === 'paid') {
+          cancelBtn.style.display = 'block';
+          cancelBtn.onclick = async () => {
+            if (confirm('Are you sure you wish to cancel this order? It will be fully refunded and inventory returned to stock.')) {
+              try {
+                await apiRequest(`/api/orders/${order.id}/cancel`, { method: 'POST' });
+                showToast('Order cancelled and refund processed', 'success');
+                closeOrderDrawer();
+                await loadOrders();
+              } catch (err) {
+                showToast(err.message || 'Unable to cancel order', 'danger');
+              }
+            }
+          };
+        } else {
+          cancelBtn.style.display = 'none';
+        }
+
+        document.getElementById('order-drawer').classList.add('open');
+        document.getElementById('order-drawer-backdrop').classList.add('open');
+      } catch (err) {
+        showToast(err.message || 'Unable to load order details', 'danger');
+      }
+    }
+
+    function closeOrderDrawer() {
+      document.getElementById('order-drawer').classList.remove('open');
+      document.getElementById('order-drawer-backdrop').classList.remove('open');
+    }
+
+    document.getElementById('order-drawer-close').addEventListener('click', closeOrderDrawer);
+    document.getElementById('order-drawer-backdrop').addEventListener('click', closeOrderDrawer);
+
+    // Tab switching
+    const tabOrdersBtn = document.getElementById('tab-orders-btn');
+    const tabProfileBtn = document.getElementById('tab-profile-btn');
+    const ordersSec = document.getElementById('account-orders-section');
+    const profileSec = document.getElementById('account-profile-section');
+
+    tabOrdersBtn.addEventListener('click', () => {
+      tabOrdersBtn.classList.add('active');
+      tabProfileBtn.classList.remove('active');
+      ordersSec.style.display = 'block';
+      profileSec.style.display = 'none';
+    });
+
+    tabProfileBtn.addEventListener('click', () => {
+      tabProfileBtn.classList.add('active');
+      tabOrdersBtn.classList.remove('active');
+      ordersSec.style.display = 'none';
+      profileSec.style.display = 'block';
+    });
+
+    // Filter status buttons
+    document.querySelectorAll('.filter-status-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-status-btn').forEach((b) => {
+          b.classList.remove('btn-secondary');
+          b.classList.add('btn-ghost');
+        });
+        btn.classList.add('btn-secondary');
+        btn.classList.remove('btn-ghost');
+
+        currentFilteredStatus = btn.dataset.status;
+        renderOrdersList();
+      });
+    });
+
+    // Sign out
+    document.getElementById('account-signout-btn').addEventListener('click', async () => {
+      await logout();
+      window.location.href = '/';
+    });
+
+    initAccount();
+  </script>
+</body>
+</html>

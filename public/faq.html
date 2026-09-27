@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frequently Asked Questions &middot; Kettle &amp; Crate</title>
+  <meta name="description" content="Answers to common questions regarding orders, shipping schedules, returns, materials safety, and cast iron care." />
+  <link rel="stylesheet" href="/css/tokens.css" />
+  <link rel="stylesheet" href="/css/base.css" />
+  <link rel="stylesheet" href="/css/store.css" />
+  <style>
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      margin-block: var(--space-8);
+    }
+    .faq-item {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .faq-question {
+      padding: var(--space-5) var(--space-6);
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: none;
+      font-family: var(--font-serif);
+      font-size: 1.18rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+    .faq-question:hover {
+      color: var(--terracotta);
+    }
+    .faq-answer {
+      padding: 0 var(--space-6) var(--space-6);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      display: none;
+    }
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+    .faq-icon {
+      transition: transform var(--transition-fast);
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body>
+  <div id="announcement-mount"></div>
+  <div id="header-mount"></div>
+
+  <main class="container" style="padding-top:var(--space-8);padding-bottom:var(--space-16);max-width:880px;">
+    <header style="text-align:center;margin-bottom:var(--space-10);">
+      <span class="badge badge-sage" style="margin-bottom:var(--space-3);">Customer Care</span>
+      <h1 style="font-size:2.8rem;margin-bottom:var(--space-3);">Frequently Asked Questions</h1>
+      <p class="lead" style="margin-inline:auto;max-width:600px;">
+        Everything you need to know about our handcrafted kitchenware, fulfillment process, materials safety, and studio guarantees.
+      </p>
+    </header>
+
+    <div class="faq-list">
+      <!-- 1 -->
+      <div class="faq-item open">
+        <button type="button" class="faq-question">
+          <span>When will my order ship from the studio?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          All orders are packed and dispatched from our Portland, Oregon studio within 24 business hours (Monday through Friday). Orders placed over the weekend depart on Monday morning. You will receive an automated dispatch notification with carrier tracking details as soon as the shipping label is generated.
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>How does free shipping work?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          All orders with a subtotal of $75.00 or greater qualify for complimentary standard ground delivery within the continental United States. For orders under $75.00, we assess a flat delivery fee of $6.95. Delivery typically takes 3 to 5 business days depending on your postal region.
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>What is your 30-day return policy?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          We want you to live with each tool in your home kitchen. If a provision does not bring genuine utility or delight, you may return it within 30 days of delivery for a full refund back to your original payment method. Contact our studio team to receive a pre-paid printable return label.
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>Is your cookware compatible with induction cooktops?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          Yes. All of our cast iron dutch ovens, braisers, carbon steel skillets, and tri-ply stainless sauté pans are 100% induction compatible. Their magnetic base materials generate rapid, uniform heating across induction surfaces as well as traditional gas and electric radiant ranges.
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>What materials do you use for packing and shipping?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          We operate a strictly plastic-free fulfillment operation. Your parcel arrives in recyclable unbleached kraft cardboard, cushioned with molded recycled paper pulp inserts, and sealed with water-activated starch paper tape. You can recycle the entire package in standard municipal curbside paper recycling.
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>Are Kettle &amp; Crate ceramics microwave and dishwasher safe?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          Yes. Our dinner plates, pasta bowls, and ceramic mugs are high-fired to 2,200&deg;F, creating a fully vitrified stone matrix. They are completely safe for everyday dishwasher and microwave use. To maximize their lifespan, avoid rapid thermal shocks (such as placing a chilled bowl directly into a hot preheated oven).
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>Are your glazes tested for lead and cadmium?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          Absolutely. Every ceramic glaze formulation used by our studio partners is certified 100% free of lead, cadmium, and industrial solvents. Our tableware exceeds all FDA and California Proposition 65 food-contact standards for daily consumption safety.
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>Can I restore or re-season my cast iron skillet if I burn something?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          Yes! Cast iron is nearly indestructible. If stubborn residue or surface rust occurs, scour the pan clean with coarse sea salt or a chainmail scrubber, rinse, dry thoroughly on a warm stovetop, and follow our step-by-step oven seasoning guide in the Journal to restore an obsidian non-stick finish.
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>Do you offer international shipping?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          We currently ship across the United States, Canada, and the United Kingdom. International orders are dispatched via carrier express partners with all applicable duties and taxes collected at checkout, ensuring zero unexpected customs fees upon arrival.
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>How should I wash and dry Belgian linen napkins?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          Machine wash in cool or warm water with a mild, bleach-free detergent on gentle cycle. Tumble dry on low heat until slightly damp, or hang to dry naturally. Linen softens considerably with every wash. We encourage leaving them unironed for a relaxed, natural European drape.
+        </div>
+      </div>
+
+      <!-- 11 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>How frequently are sold-out studio provisions restocked?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          Because our independent artisan workshops produce in limited batches, restocks typically occur every four to six weeks. You can sign up for our Morning Dispatch newsletter or check the product page for anticipated batch kiln arrival dates.
+        </div>
+      </div>
+
+      <!-- 12 -->
+      <div class="faq-item">
+        <button type="button" class="faq-question">
+          <span>Where are your pantry provisions sourced?</span>
+          <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+        <div class="faq-answer">
+          Every pantry item has complete geographic traceability. Our smoked sea salt is solar-evaporated on the Oregon coast, our extra virgin olive oil is harvested from a single family grove in Messinia, Greece, and our raw wildflower honey is gathered from alpine apiaries in the Cascade foothills. We never blend or dilute harvest lots.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-mount"></div>
+
+  <script type="module">
+    import { initGlobalLayout } from '/js/components.js';
+    initGlobalLayout();
+
+    document.querySelectorAll('.faq-question').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        item.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
